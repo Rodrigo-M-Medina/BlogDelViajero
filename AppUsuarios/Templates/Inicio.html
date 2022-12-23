@@ -1,10 +1,14 @@
+{% extends "PadreHome.html" %}
 
+{% block titulo %}
 
+{% endblock %}
 
-
-
+{% block contenido %} 
 
 <a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'ingresousuario' %}>Ingresar</a> {% csrf_token %}
 <br>
-<a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'registrousuario' %}>Registrarse</a> 
+<a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'registrousuario' %}>Registrarse</a> {% csrf_token %}
 <br>
+
+{% endblock %}

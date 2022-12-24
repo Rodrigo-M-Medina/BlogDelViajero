@@ -10,5 +10,9 @@
 <br>
 <a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'registrousuario' %}>Registrarse</a> {% csrf_token %}
 <br>
+<a class="btn btn-danger" href="{% url 'desconectarse' %}">Desloguearme</a>
+
 
 {% endblock %}
+
+{{ mensaje }}

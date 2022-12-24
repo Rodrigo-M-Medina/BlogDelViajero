@@ -53,4 +53,8 @@ def ingresoUsuario(request):
     
     return render (request, "IngresoUsuario.html",{"form":form})
 
+#-------- desconectar sesiòn ----------
 
+def desconectarse(request):
+    logout(request)
+    return render(request, "Inicio.html", {"mensaje":"Te desconectaste"})

@@ -93,6 +93,7 @@ class AgregarVistaPosteo(ListView):
 
             return render(request, "otrotemplate.html", {form:"form"})
 class TodosPosteos(AgregarVistaPosteo):
+    
     models = Posteo
 
     def get (self,request):

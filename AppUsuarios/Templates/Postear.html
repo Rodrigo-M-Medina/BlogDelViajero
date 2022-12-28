@@ -9,12 +9,13 @@
 <h1>Agregar Posteo </h1>
 <br>
 
-<form action="{% url 'postear' %}" method="POST"> 
+<form action="{% url 'postear' %}" method="POST" enctype="multipart/form-data"> 
 
     {% csrf_token %}
     
     {{ form.media|safe }}
     {{ form.as_p|safe }}
+
     
     <input type="submit" value="Agregar Posteo">
 </form>

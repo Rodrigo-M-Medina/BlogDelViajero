@@ -31,12 +31,7 @@ class FormEditarUsuario(UserCreationForm):
         help_texts = {k:"" for k in fields}
 
 class PosteoForm(forms.Form):
-    usuario_posteo_forms=forms.CharField(required=True, max_length=100)
-    titulo_posteo_forms = forms.CharField(label="Ingrese título",max_length=25)
-    contenido_posteo_forms = forms.CharField(widget=CKEditorWidget())
-    
+    titulo_posteo = forms.CharField(label="Ingrese título")
+    contenido_posteo = forms.CharField(widget=CKEditorWidget())
+    imagen_post = forms.ImageField(label="Imagen")
     fecha_posteo_imagen_forms = forms.DateField()
-    class Meta:
-        model = Posteo
-        fields=["usuario_posteo","titulo_posteo","contenido_posteo","imagen_posteo","fecha_posteo_imagen"]
-        #help_texts = {k:"" for k in fields} 

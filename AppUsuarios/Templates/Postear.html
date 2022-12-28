@@ -12,10 +12,13 @@
 <form action="{% url 'postear' %}" method="POST"> 
 
     {% csrf_token %}
+    
     {{ form.media|safe }}
     {{ form.as_p|safe }}
     
     <input type="submit" value="Agregar Posteo">
 </form>
 <br>
+
+{{ mensaje }}
 {% endblock %}

@@ -101,20 +101,25 @@ class TodosPosteos(AgregarVistaPosteo):
         return render(request, "TodosPosteos.html", {"posts":todos_posteos}) '''
 
 def agregarPosteo(request):
+
     if request.method == "POST":
         form = PosteoForm(request.POST)
         if form.is_valid():
             datos=form.cleaned_data
 
-            usuario_posteo=datos["usuario_posteo_forms"]
-            titulo_posteo=datos["titulo_posteo_forms"]
-            contenido_posteo=datos["contenido_posteo_forms"]
-            imagen_posteo=datos["imagen_posteo_forms"]
-            fecha_posteo=datos["fecha_posteo_forms"]
+            usuario_posteo1=datos["usuario_posteo"]
+            titulo_posteo1=datos["titulo_posteo"]
+            contenido_posteo1=datos["contenido_posteo"]
+            #imagen_posteo1=datos["imagen_posteo"]
+            fecha_posteo1=datos["fecha_posteo"]
             
-        posteo1= Posteo(usuario_posteo=usuario_posteo, titulo_posteo=titulo_posteo, contenido_posteo=contenido_posteo, imagen_posteo=imagen_posteo, fecha_posteo=fecha_posteo)
-        posteo1.save()
-        return render(request, "Portal.html" )
+            posteo1= Posteo(usuario_posteo=usuario_posteo1, titulo_posteo=titulo_posteo1, contenido_posteo=contenido_posteo1,fecha_posteo=fecha_posteo1) #imagen_posteo=imagen_posteo1,'''
+            posteo1.save()
+
+            return render(request, "Portal.html" )
+        else:
+            formulario = PosteoForm()
+            return render(request,"Postear.html", {"mensaje":"Formulario invalido","form":formulario})
 
     else:
         formulario = PosteoForm()

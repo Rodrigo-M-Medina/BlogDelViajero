@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import *
+from ckeditor.fields import RichTextField
+
 
 class FormUsuario(UserCreationForm):
     nombre = forms.CharField(max_length=50)
@@ -28,11 +30,11 @@ class FormEditarUsuario(UserCreationForm):
 
 class PosteoForm(forms.Form):
     usuario_posteo_forms=forms.CharField(widget=forms.TextInput(), required=True, max_length=100)
-    titulo_posteo_forms = forms.CharField(max_length=25)
-    contenido_posteo_forms = RichTextField()
+    titulo_posteo_forms = forms.CharField(label="Ingrese título",max_length=25)
+    contenido_posteo_forms = RichTextField(blank=True,null=True)
     imagen_posteo_forms = forms.ImageField()
     fecha_posteo_imagen_forms = forms.DateField()
     class Meta:
         model = Posteo
         fields=["usuario_posteo_forms","titulo_posteo_forms","contenido_posteo_forms","imagen_posteo_forms","fecha_posteo_imagen_forms"]
-        help_texts = {k:"" for k in fields} 
+        #help_texts = {k:"" for k in fields} 

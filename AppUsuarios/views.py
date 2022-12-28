@@ -6,8 +6,8 @@ from AppUsuarios.forms import FormUsuario, FormEditarUsuario, PosteoForm
 #--------------- imports de forms existentes en django ------------
 from django.contrib.auth.forms import AuthenticationForm
 
-from django.views.generic.list import ListView
 from .models import Posteo
+
 from django.contrib.auth.models import User
 
 
@@ -66,7 +66,7 @@ def portal(request, usuario):
     return render(request, "Portal.html", {"mensaje": f"bienvenido {usuario}"})
 
 #------------- posteo ---------
-class AgregarVistaPosteo(ListView):
+'''class AgregarVistaPosteo(ListView):
 
     model = Posteo
 
@@ -98,5 +98,25 @@ class TodosPosteos(AgregarVistaPosteo):
 
     def get (self,request):
         todos_posteos = self.model.objects.all().order_by("id")  
-        return render(request, "TodosPosteos.html", {"posts":todos_posteos}) 
+        return render(request, "TodosPosteos.html", {"posts":todos_posteos}) '''
+
+def agregarPosteo(request):
+    if request.method == "POST":
+        form = PosteoForm(request.POST)
+        if form.is_valid():
+            datos=form.cleaned_data
+
+            usuario_posteo=datos["usuario_posteo_forms"]
+            titulo_posteo=datos["titulo_posteo_forms"]
+            contenido_posteo=datos["contenido_posteo_forms"]
+            imagen_posteo=datos["imagen_posteo_forms"]
+            fecha_posteo=datos["fecha_posteo_forms"]
             
+        posteo1= Posteo(usuario_posteo=usuario_posteo, titulo_posteo=titulo_posteo, contenido_posteo=contenido_posteo, imagen_posteo=imagen_posteo, fecha_posteo=fecha_posteo)
+        posteo1.save()
+        return render(request, "Portal.html" )
+
+    else:
+        formulario = PosteoForm()
+
+    return render(request, "Postear.html", {"form":formulario})

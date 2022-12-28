@@ -1,0 +1,21 @@
+{% extends "PadreHome.html" %}
+
+{% block titulo %}
+
+{% endblock %}
+
+{% block contenido %} 
+
+<h1>Agregar Posteo </h1>
+<br>
+
+<form action="{% url 'postear' %}" method="POST"> 
+
+    {% csrf_token %}
+    {{ form.media|safe }}
+    {{ form.as_p|safe }}
+    
+    <input type="submit" value="Agregar Posteo">
+</form>
+<br>
+{% endblock %}

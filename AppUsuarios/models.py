@@ -7,4 +7,4 @@ class Posteo(models.Model):
     titulo_posteo = models.CharField(max_length=25)
     contenido_posteo = RichTextField(blank=True,null=True)
     imagen_posteo = models.ImageField(upload_to='Imagen', null=True, blank=True)
-    fecha_posteo_imagen = models.DateField()    
+    fecha_posteo_imagen = models.DateField(auto_now_add=True)    

@@ -1,0 +1,25 @@
+{% extends "PadreHome.html" %}
+
+{% block titulo %}
+
+{% endblock %}
+
+{% block contenido %} 
+
+<h1>Editar posteo </h1>
+<br>
+<form action="{% url 'editarposteo' posteo.id %}" method="POST" enctype="multipart/form-data"> 
+
+    {% csrf_token %}
+    
+    {{  formularioposteo.media|safe }}
+    {{  formularioposteo.as_p|safe }}
+
+    
+    <input type="submit" value="Editar Posteo">
+</form>
+<br>
+
+
+{{ mensaje }}
+{% endblock %}

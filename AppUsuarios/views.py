@@ -125,3 +125,40 @@ def agregarPosteo(request):
         formulario = PosteoForm()
 
     return render(request, "Postear.html", {"form":formulario})
+
+#----------- Ver Posteo -------------
+def verPosteo(request):
+
+    posteos = Posteo.objects.all()
+
+    datos= {"posteos":posteos}
+
+    return render(request,"VerPosteos.html",datos)
+
+
+#-------------Editar Posteo -------------
+def editarPosteo(request,id):
+
+    posteo=Posteo.objects.get(id=id)
+
+    if request.method == "POST":
+        formularioposteo = PosteoForm(request.POST)
+
+        if formularioposteo.is_valid():
+            datos = formularioposteo.cleaned_data 
+
+            posteo.titulo_posteo = datos["titulo_posteo"]
+            posteo.contenido_posteo = datos["contenido_posteo"]
+            posteo.imagen_post = datos["imagen_post"]
+
+            posteo.save()
+
+            return render(request,"VerPosteos.html", {"mensaje":"Posteo editado correctamente"})
+        else:
+            return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo"})
+    else:
+        formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
+
+        return render(request,"EditarPosteo.html", {"formularioposteo":formularioposteo,"posteo":posteo})
+
+

@@ -1,0 +1,26 @@
+{% extends "PadreHome.html" %}
+
+{% block titulo %}
+
+{% endblock %}
+
+{% block contenido %} 
+
+<h1>Agregar Posteo </h1>
+<br>
+
+</head>
+<body>
+    {% for posteo in posteos %} {% csrf_token %}
+        <li>{{posteo}} {{posteo.fecha_posteo_imagen}}</li>
+         <img height="200px" src={{posteo.imagen_post.url}} alt="">
+         <button>
+            <a href="{% url "editarposteo" posteo.id %}">Editar</a>
+        </button>
+    {% endfor %}
+</body>
+</form>
+<br>
+
+{{ mensaje }}
+{% endblock %}

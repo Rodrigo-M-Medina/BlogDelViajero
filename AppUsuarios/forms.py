@@ -34,4 +34,3 @@ class PosteoForm(forms.Form):
     titulo_posteo = forms.CharField(label="Ingrese título")
     contenido_posteo = forms.CharField(widget=CKEditorWidget())
     imagen_post = forms.ImageField(label="Imagen")
-    fecha_posteo_imagen_forms = forms.DateField()

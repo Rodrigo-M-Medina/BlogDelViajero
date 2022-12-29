@@ -6,9 +6,11 @@ from AppUsuarios.forms import FormUsuario, FormEditarUsuario, PosteoForm
 #--------------- imports de forms existentes en django ------------
 from django.contrib.auth.forms import AuthenticationForm
 
-from .models import Posteo
+from AppUsuarios.models import Posteo
 
 from django.contrib.auth.models import User
+
+from datetime import datetime
 
 
 
@@ -110,9 +112,9 @@ def agregarPosteo(request):
             titulo_posteo=datos["titulo_posteo"]
             contenido_posteo=datos["contenido_posteo"]
             imagen_post=datos["imagen_post"]
-            fecha_posteo_imagen_forms=datos["fecha_posteo_imagen_forms"]  
+            fecha_posteo_imagen_forms= datetime.now()
                       
-            posteo1= Posteo( titulo_posteo=titulo_posteo,contenido_posteo=contenido_posteo, imagen_post=imagen_post, fecha_posteo_imagen=fecha_posteo_imagen_forms  ,usuario_posteo=request.user) 
+            posteo1=Posteo( titulo_posteo=titulo_posteo,contenido_posteo=contenido_posteo, imagen_post=imagen_post, fecha_posteo_imagen=fecha_posteo_imagen_forms  ,usuario_posteo=request.user) 
             posteo1.save()
 
             return render(request, "Portal.html" )

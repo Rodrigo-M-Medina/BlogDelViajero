@@ -35,6 +35,14 @@ def registroUsuario(request):
     return render(request, 'RegistroUsuario.html',{"form":form})
 
 
+#---------- Ver usuarios ------------------
+
+def verUsuarios(request):
+    usuarios = AuthenticationForm.objects.all()
+    datos = {"usuarios": usuarios}
+    return render(request, 'VerUsuarios.html', datos) 
+
+
 
 #----------- inicio de sesion --------------
 
@@ -67,41 +75,7 @@ def desconectarse(request):
 def portal(request, usuario):
     return render(request, "Portal.html", {"mensaje": f"bienvenido {usuario}"})
 
-#------------- posteo ---------
-'''class AgregarVistaPosteo(ListView):
-
-    model = Posteo
-
-    def get(self,request):
-            form = PosteoForm()
-            return render (request, "index.html", {"form":form})
-
-    def post(self, request):
-        form = PosteoForm(request.POST)
-        if form.is_valid():
-            datos = form.cleaned_data
-            usuario_posteo2 = datos["usuario_posteo_forms"]
-            titulo_posteo2 = datos["titulo_posteo_forms"]
-            contenido_posteo2 = datos["contenido_posteo_forms"]
-            imagen_posteo2 = datos["imagen_posteo_forms"]
-            fecha_posteo_imagen2 = datos["fecha_posteo_imagen_forms"]
-
-            objeto_usuario = User.objects.get(nombre = usuario_posteo2)
-            objeto_posteo = Posteo.objects.create(usuario_posteo = objeto_usuario, titulo_posteo = titulo_posteo2 , contenido_posteo = contenido_posteo2, imagen_posteo = imagen_posteo2, fecha_posteo_imagen = fecha_posteo_imagen2)
-
-            objeto_posteo.save()
-
-            form = PosteoForm()
-
-            return render(request, "otrotemplate.html", {form:"form"})
-class TodosPosteos(AgregarVistaPosteo):
-    
-    models = Posteo
-
-    def get (self,request):
-        todos_posteos = self.model.objects.all().order_by("id")  
-        return render(request, "TodosPosteos.html", {"posts":todos_posteos}) '''
-
+#-----------------  Agregar Posteo
 def agregarPosteo(request):
 
     if request.method == "POST":
@@ -160,5 +134,18 @@ def editarPosteo(request,id):
         formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
 
         return render(request,"EditarPosteo.html", {"formularioposteo":formularioposteo,"posteo":posteo})
+
+        
+def eliminarPosteo(request, id):
+        posteo = Posteo.objects.get(id = id)
+        posteo.delete()
+        posteo = Posteo.objects.all()  
+ 
+        posteo = {"posteos": posteo}
+ 
+        return render(request, "VerPosteos.html", posteo)
+
+
+
 
 

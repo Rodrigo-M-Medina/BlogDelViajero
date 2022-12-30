@@ -1,5 +1,8 @@
 from django.urls import path, include
 from .views import *
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
 
 urlpatterns = [
     path('', paginaInicio, name="paginainicio"),
@@ -8,6 +11,8 @@ urlpatterns = [
     path('desconectarse/', desconectarse, name="desconectarse"),
     path("postear/", agregarPosteo, name='postear'),
     path("verposteo/", verPosteo, name="verposteo"),
-    path("editarposteo/<id>/", editarPosteo, name="editarposteo"),
-    
+    path("editarposteo/<id>", editarPosteo, name="editarposteo"),
+    path("eliminarposteo/<id>", eliminarPosteo, name="eliminarposteo"),
+    path("verusuarios", verUsuarios, name = "verusuarios"),
 ]
+

@@ -16,6 +16,7 @@
          <img height="200px" src={{posteo.imagen_post.url}} alt="">
          <button>
             <a href="{% url "editarposteo" posteo.id %}">Editar</a>
+            <a href="{% url "eliminarposteo" posteo.id %}">Eliminar</a>
         </button>
     {% endfor %}
 </body>

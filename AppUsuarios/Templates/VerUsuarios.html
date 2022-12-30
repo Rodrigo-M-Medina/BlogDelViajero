@@ -1,0 +1,23 @@
+{% extends "PadreHome.html" %}
+
+{% block titulo %}
+
+{% endblock %}
+
+{% block contenido %} 
+
+<h1>Ver Usuarios </h1>
+<br>
+
+</head>
+<body>
+    {% for usuario in usuarios %} {% csrf_token %}
+        <li>{{usuarios}} </li>
+         
+    {% endfor %}
+</body>
+</form>
+<br>
+
+{{ mensaje }}
+{% endblock %}

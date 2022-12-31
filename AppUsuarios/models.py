@@ -11,7 +11,16 @@ class Posteo(models.Model):
 
     def __str__(self):
         return self.titulo_posteo
+ 
 
+
+class ImagenPerfil(models.Model):
+    imagen=models.ImageField(upload_to='Perfil')
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.titulo_posteo
+ 
 
 
 

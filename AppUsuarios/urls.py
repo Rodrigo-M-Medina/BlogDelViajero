@@ -12,6 +12,8 @@ urlpatterns = [
     path("postear/", agregarPosteo, name='postear'),
     path("verposteo/", verPosteo, name="verposteo"),
     path("editarposteo/<id>", editarPosteo, name="editarposteo"),
+    path("portal/", portal, name="portal1"),
+    path("fotoPerfil/", fotoPerfil, name="fotoPerfil"),
     path("eliminarposteo/<id>", eliminarPosteo, name="eliminarposteo"),
     path("verusuarios", verUsuarios, name = "verusuarios"),
 ]

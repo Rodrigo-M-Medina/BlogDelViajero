@@ -38,9 +38,10 @@ def registroUsuario(request):
 #---------- Ver usuarios ------------------
 
 def verUsuarios(request):
-    usuarios = AuthenticationForm.objects.all()
-    datos = {"usuarios": usuarios}
-    return render(request, 'VerUsuarios.html', datos) 
+    usuarios = User.objects.all()
+    
+    return render(request, 'VerUsuarios.html', {"usuarios": usuarios}) 
+    
 
 
 

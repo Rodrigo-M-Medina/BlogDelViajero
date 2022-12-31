@@ -11,8 +11,8 @@
 
 </head>
 <body>
-    {% for usuario in usuarios %} {% csrf_token %}
-        <li>{{usuarios}} </li>
+    {% for user in usuarios %} {% csrf_token %}
+        <li>{{ user.username }} </li>
          
     {% endfor %}
 </body>

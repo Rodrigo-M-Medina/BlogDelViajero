@@ -13,6 +13,7 @@
 <body>
     {% for posteo in posteos %} {% csrf_token %}
         <li>{{posteo}} {{posteo.fecha_posteo_imagen}}</li>
+        <li>Posteo creadi por {{posteo.usuario_posteo}}</li>
          <img height="200px" src={{posteo.imagen_post.url}} alt="">
          <button>
             <a href="{% url "editarposteo" posteo.id %}">Editar</a>

@@ -9,6 +9,6 @@ class Posteo(models.Model):
     imagen_post = models.ImageField(upload_to='posteos')
     fecha_posteo_imagen = models.DateField(blank=True, null=True)
 
-    def __str__(self):
-        return self.titulo_posteo
- 
+
+
+

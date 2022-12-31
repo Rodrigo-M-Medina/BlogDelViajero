@@ -2,8 +2,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import *
-from ckeditor.fields import RichTextField
-
 from ckeditor.widgets import CKEditorWidget
 
 
@@ -34,3 +32,7 @@ class PosteoForm(forms.Form):
     titulo_posteo = forms.CharField(label="Ingrese título")
     contenido_posteo = forms.CharField(widget=CKEditorWidget())
     imagen_post = forms.ImageField(label="Imagen")
+
+    class Meta:
+        model = Posteo
+        fields = ["titulo_posteo", "contenido_posteo", "imagen_post"]

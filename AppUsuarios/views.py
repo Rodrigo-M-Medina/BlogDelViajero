@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 #-------------- imports de funciones de django ----------
 from django.contrib.auth import login, authenticate, logout
 #--------------- imports de forms creados en forms.py -----------
@@ -68,40 +68,6 @@ def portal(request, usuario):
     return render(request, "Portal.html", {"mensaje": f"bienvenido {usuario}"})
 
 #------------- posteo ---------
-'''class AgregarVistaPosteo(ListView):
-
-    model = Posteo
-
-    def get(self,request):
-            form = PosteoForm()
-            return render (request, "index.html", {"form":form})
-
-    def post(self, request):
-        form = PosteoForm(request.POST)
-        if form.is_valid():
-            datos = form.cleaned_data
-            usuario_posteo2 = datos["usuario_posteo_forms"]
-            titulo_posteo2 = datos["titulo_posteo_forms"]
-            contenido_posteo2 = datos["contenido_posteo_forms"]
-            imagen_posteo2 = datos["imagen_posteo_forms"]
-            fecha_posteo_imagen2 = datos["fecha_posteo_imagen_forms"]
-
-            objeto_usuario = User.objects.get(nombre = usuario_posteo2)
-            objeto_posteo = Posteo.objects.create(usuario_posteo = objeto_usuario, titulo_posteo = titulo_posteo2 , contenido_posteo = contenido_posteo2, imagen_posteo = imagen_posteo2, fecha_posteo_imagen = fecha_posteo_imagen2)
-
-            objeto_posteo.save()
-
-            form = PosteoForm()
-
-            return render(request, "otrotemplate.html", {form:"form"})
-class TodosPosteos(AgregarVistaPosteo):
-    
-    models = Posteo
-
-    def get (self,request):
-        todos_posteos = self.model.objects.all().order_by("id")  
-        return render(request, "TodosPosteos.html", {"posts":todos_posteos}) '''
-
 def agregarPosteo(request):
 
     if request.method == "POST":
@@ -137,28 +103,33 @@ def verPosteo(request):
 
 
 #-------------Editar Posteo -------------
+
+
+
 def editarPosteo(request,id):
 
     posteo=Posteo.objects.get(id=id)
 
     if request.method == "POST":
-        formularioposteo = PosteoForm(request.POST)
+        formularioposteo = PosteoForm(request.POST, request.FILES)
 
         if formularioposteo.is_valid():
             datos = formularioposteo.cleaned_data 
-
             posteo.titulo_posteo = datos["titulo_posteo"]
             posteo.contenido_posteo = datos["contenido_posteo"]
             posteo.imagen_post = datos["imagen_post"]
+            posteo.fecha_posteo_imagen = datetime.now()
+
 
             posteo.save()
-
             return render(request,"VerPosteos.html", {"mensaje":"Posteo editado correctamente"})
-        else:
+        else: 
             return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo"})
     else:
         formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
 
         return render(request,"EditarPosteo.html", {"formularioposteo":formularioposteo,"posteo":posteo})
+
+
 
 

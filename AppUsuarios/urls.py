@@ -9,5 +9,6 @@ urlpatterns = [
     path("postear/", agregarPosteo, name='postear'),
     path("verposteo/", verPosteo, name="verposteo"),
     path("editarposteo/<id>/", editarPosteo, name="editarposteo"),
+    path("portal/", portal, name="portal1")
     
 ]

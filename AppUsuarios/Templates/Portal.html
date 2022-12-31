@@ -1,15 +1,22 @@
 {% extends "PadreHome.html" %}
 
+{% block nav %}
+<img height="200px" src="{{ imagen }}" alt="">
+
+{% endblock %}
 {% block contenido %}
+
+<br>
 <a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'desconectarse' %}>Desconectarse</a> {% csrf_token %}
 <br>
 <a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'postear' %}>Agregar Post</a>
 <br>
 <a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'verposteo' %}>Ver listado de posteos</a>
 <br>
+<br>
+<a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'fotoPerfil' %}>Cambiar Foto Perfil</a>
+<br>
 {% endblock %}
-
-
 
  
 

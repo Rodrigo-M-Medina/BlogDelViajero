@@ -10,5 +10,13 @@ class Posteo(models.Model):
     fecha_posteo_imagen = models.DateField(blank=True, null=True)
 
 
+class ImagenPerfil(models.Model):
+    imagen=models.ImageField(upload_to='Perfil')
+    user=models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user} - {self.imagen}"
+
+
 
 

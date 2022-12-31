@@ -36,3 +36,6 @@ class PosteoForm(forms.Form):
     class Meta:
         model = Posteo
         fields = ["titulo_posteo", "contenido_posteo", "imagen_post"]
+
+class ImagenPerfilForm(forms.Form):
+    imagen=forms.ImageField(label="Imagen")

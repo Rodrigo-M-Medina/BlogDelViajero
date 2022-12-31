@@ -5,6 +5,9 @@ from .models import *
 from ckeditor.widgets import CKEditorWidget
 
 
+#------------------------------------------ USUARIOS ------------------------------------------------
+
+#------------- Formulario de registro usuario --------------
 class FormUsuario(UserCreationForm):
     nombre = forms.CharField(max_length=50)
     email = forms.EmailField()
@@ -16,7 +19,7 @@ class FormUsuario(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
         help_texts = {k:"" for k in fields}
 
-
+#---------------------- Formulario Editar usuario -------------------
 class FormEditarUsuario(UserCreationForm):
     nombre = forms.CharField(max_length=50)
     email = forms.EmailField(label="ingrese su email")
@@ -28,6 +31,15 @@ class FormEditarUsuario(UserCreationForm):
         fields = ["username", "email", "password1", "password2"]
         help_texts = {k:"" for k in fields}
 
+#--------------- Subir avatar ----------------
+class ImagenPerfilForm(forms.Form):
+    imagen=forms.ImageField(label="Imagen")
+
+
+
+#-------------------------------------------- POSTEOS ---------------------------------------------------------
+
+#----------------- Formulario para postear --------------------
 class PosteoForm(forms.Form):
     titulo_posteo = forms.CharField(label="Ingrese título")
     contenido_posteo = forms.CharField(widget=CKEditorWidget())
@@ -37,5 +49,3 @@ class PosteoForm(forms.Form):
         model = Posteo
         fields = ["titulo_posteo", "contenido_posteo", "imagen_post"]
 
-class ImagenPerfilForm(forms.Form):
-    imagen=forms.ImageField(label="Imagen")

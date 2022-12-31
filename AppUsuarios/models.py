@@ -2,6 +2,8 @@ from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 # Create your models here.
+
+
 class Posteo(models.Model):
     usuario_posteo = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo_posteo = models.CharField(max_length=25)
@@ -12,7 +14,6 @@ class Posteo(models.Model):
     def __str__(self):
         return self.titulo_posteo
  
-
 
 class ImagenPerfil(models.Model):
     imagen=models.ImageField(upload_to='Perfil')

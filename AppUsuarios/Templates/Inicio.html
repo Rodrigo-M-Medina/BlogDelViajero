@@ -1,16 +1,19 @@
 {% extends "PadreHome.html" %}
 
-{% block titulo %}
+{% block nav %}
+<li class="nav-item"><a class="nav-link" href={% url 'ingresousuario' %}>Ingresar</a> {% csrf_token %}
+<li class="nav-item"><a class="nav-link" href={% url 'registrousuario' %}>Registrarse</a> {% csrf_token %}
+{% endblock %}
 
+
+
+{% block titulo %}
 {% endblock %}
 
 {% block contenido %} 
 <img height="200px" src="{{ imagen }}" alt="">
 
-<a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'ingresousuario' %}>Ingresar</a> {% csrf_token %}
-<br>
-<a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'registrousuario' %}>Registrarse</a> {% csrf_token %}
-<br>
+
 
 
 

@@ -1,7 +1,14 @@
 {% extends "PadreHome.html" %}
 
-{% block titulo %}
+{% block nav %}
+<li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
+<li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar un nuevo destino</a>
+<li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a>
+{% csrf_token %}
+{% endblock %}
 
+
+{% block titulo %}
 {% endblock %}
 
 {% block contenido %} 
@@ -11,15 +18,24 @@
 
 </head>
 <body>
-    {% for posteo in posteos %} {% csrf_token %}
-        <li>{{posteo}} {{posteo.fecha_posteo_imagen}}</li>
-        <li>Posteo creado por {{posteo.usuario_posteo}}</li>
-         <img height="200px" src={{ posteo.imagen_post.url }} alt="">
-         <button>
-            <a href="{% url "editarposteo" posteo.id %}">Editar</a>
-            <a href="{% url "eliminarposteo" posteo.id %}">Eliminar</a>
-        </button>
-    {% endfor %}
+    <p>
+       {% for posteo in posteos %} {% csrf_token %}
+            <li>{{posteo}} 
+                <br>
+                {{posteo.fecha_posteo_imagen}}
+                <br>
+                Posteo creado por {{posteo.usuario_posteo}}
+            </li>
+            <img height="100px" src={{ posteo.imagen_post.url }} alt="">
+            <button>
+                <a href="{% url "editarposteo" posteo.id %}">Editar</a>
+                <a href="{% url "eliminarposteo" posteo.id %}">Eliminar</a>
+            </button>
+            <br>
+            <br>
+            <br>
+       {% endfor %}
+    </p>
 
 </body>
 </form>

@@ -1,21 +1,29 @@
 {% extends "PadreHome.html" %}
 
+{% block nav %}
+<a class="nav-item"><a class="nav-link" href={% url 'registrousuario' %}>Registrarse</a> {% csrf_token %}
+{% csrf_token %}
+{% endblock %}
+
 
 {% block titulo %}
-
 {% endblock %}
 
 {% block contenido %} 
-
 <h1>Ingresar usuario</h1>
 <br>
-<form action="{% url 'ingresousuario' %}" method="POST"> {% csrf_token %}
-    <table>
-        {{ form.as_table }}
+    <form action="{% url 'ingresousuario' %}" method="POST"> {% csrf_token %}
+        <table>
+            {{ form.as_table }}
 
-    </table>
-    <input type="submit" value="Ingresar">
-</form>
-
+        </table>
+        <input type="submit" value="Ingresar">
+    </form>
+    <br>
+    <p> Si no está registado, 
+        <form action="{% url 'registrousuario' %}" method="POST"> {% csrf_token %}
+            <input type="submit" value="Registrarse">
+        </form>
+    </p>
 {% endblock %}
 

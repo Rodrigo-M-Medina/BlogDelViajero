@@ -15,7 +15,7 @@ urlpatterns = [
     path("editarposteo/<id>", editarPosteo, name="editarposteo"),
     path("eliminarposteo/<id>", eliminarPosteo, name="eliminarposteo"),
     path("verusuarios", verUsuarios, name = "verusuarios"),
-    path('desconectarse/', LogoutView.as_view(), name='desconectarse'),#Funcion para desconectarse
+    path("desconectarse/", LogoutView.as_view(), name='desconectarse'),#Funcion para desconectarse
     path("fotoPerfil/", fotoPerfil, name="fotoPerfil"), #Funcion para editar avatar
 ]
 

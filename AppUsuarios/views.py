@@ -56,7 +56,7 @@ def ingresoUsuario(request):
             usuario = authenticate (username=nombre_usuario, password=clave_usuario)
             if usuario is not None:
                 login(request, usuario)
-                return render(request, "Portal.html", {"mensaje": f"Bienvenido {usuario}!", "imagen":mostrarImagen(request)})
+                return render(request, "Portal.html", {"mensaje": f"Hola {usuario}!", "imagen":mostrarImagen(request)})
 
             else:
                 return render (request, "IngresoUsuario.html", {"form":form})

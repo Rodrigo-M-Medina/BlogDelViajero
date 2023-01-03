@@ -27,10 +27,15 @@
                 Posteo creado por {{posteo.usuario_posteo}}
             </li>
             <img height="100px" src={{ posteo.imagen_post.url }} alt="">
-            <button>
-                <a href="{% url "editarposteo" posteo.id %}">Editar</a>
-                <a href="{% url "eliminarposteo" posteo.id %}">Eliminar</a>
-            </button>
+            
+                
+                {% if user.is_superuser %}
+                    <button>
+                        <a href="{% url "eliminarposteo" posteo.id %}">Eliminar</a>
+                        <a href="{% url "editarposteo" posteo.id %}">Editar</a>
+                    </button>
+                {% endif %}
+            
             <br>
             <br>
             <br>

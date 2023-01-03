@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 #-------------- imports de funciones de django ----------
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, authenticate
 #--------------- imports de forms creados en forms.py -----------
 from AppUsuarios.forms import FormUsuario, FormEditarUsuario, PosteoForm, ImagenPerfilForm
 #--------------- imports de forms existentes en django ------------
@@ -166,12 +166,14 @@ def editarPosteo(request,id):
 
 #---------------- Eliminar posteo ----------------
 def eliminarPosteo(request, id):
-        posteo = Posteo.objects.get(id = id)
+    
+        posteo = Posteo.objects.get(id = id) #Evitar que se rompa al volver atras. Que no tariga mas un id
         posteo.delete()
-        posteo = Posteo.objects.all()  
+        posteo = Posteo.objects.all()
  
         posteo = {"posteos": posteo}
  
         return render(request, "VerPosteos.html", posteo)
+
 
 

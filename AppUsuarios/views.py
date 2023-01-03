@@ -193,7 +193,6 @@ def perfil(request):
 
 
 #---------------------------- ABOUT US --------------------------------
-
 @login_required
 def sobreNosotros(request):
      return render(request, "SobreNosotros.html")

@@ -12,6 +12,9 @@ from django.contrib.auth.models import User
 
 from datetime import datetime
 
+from django.contrib.auth.decorators import login_required
+
+
 
 
 
@@ -38,7 +41,7 @@ def registroUsuario(request):
 
 
 #---------- Ver usuarios ------------------
-
+@login_required
 def verUsuarios(request):
     usuarios = User.objects.all()
     
@@ -67,12 +70,14 @@ def ingresoUsuario(request):
     
     return render (request, "IngresoUsuario.html",{"form":form})
 
+#----------------------- Portal ----------------------------------------
 
+@login_required
 def portal(request, usuario):
     return render(request, "Portal.html", {"mensaje": f"bienvenido {usuario}", "imagen":mostrarImagen(request)})
 
 #-------  FUNCION PARA AGREGAR IMAGEN ---------
-
+@login_required
 def fotoPerfil(request):
     if request.method=="POST":
         form=ImagenPerfilForm(request.POST, request.FILES)
@@ -90,7 +95,7 @@ def fotoPerfil(request):
         return render(request , "agregarImagen.html", {"formulario": form, "usuario": request.user, "imagen":mostrarImagen(request)})
 
 #--------- FUNCION PARA TRAER LA IMAGEN -----------------
-
+@login_required
 def mostrarImagen(request):
     lista=ImagenPerfil.objects.filter(user=request.user)
     if len(lista)!=0:
@@ -104,6 +109,7 @@ def mostrarImagen(request):
 #------------------------------------------ POSTEOS ------------------------------------------------------------
 
 #-----------------  Agregar Posteo -------------------
+@login_required
 def agregarPosteo(request):
 
     if request.method == "POST":
@@ -129,6 +135,7 @@ def agregarPosteo(request):
     return render(request, "Postear.html", {"form":formulario})
 
 #------------------- Ver Posteo -------------------
+@login_required
 def verPosteo(request):
 
     posteos = Posteo.objects.all()
@@ -139,6 +146,7 @@ def verPosteo(request):
 
 
 #----------------- Editar Posteo -------------------
+@login_required
 def editarPosteo(request,id):
 
     posteo=Posteo.objects.get(id=id)
@@ -165,6 +173,7 @@ def editarPosteo(request,id):
 
 
 #---------------- Eliminar posteo ----------------
+@login_required
 def eliminarPosteo(request, id):
     
         posteo = Posteo.objects.get(id = id) #Evitar que se rompa al volver atras. Que no tariga mas un id
@@ -177,3 +186,14 @@ def eliminarPosteo(request, id):
 
 
 
+#--------------------------- PERFIL -------------------------------
+@login_required
+def perfil(request):
+    return render(request, "Perfil.html")
+
+
+#---------------------------- ABOUT US --------------------------------
+
+@login_required
+def sobreNosotros(request):
+     return render(request, "SobreNosotros.html")

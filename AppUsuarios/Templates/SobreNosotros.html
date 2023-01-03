@@ -1,0 +1,74 @@
+{% extends "PadreHome.html" %}
+
+{% block avatar %}
+<a class="navbar-brand" href={% url 'perfil' %}><img height="200px" src="" alt="">{{user}}</a>
+<br>
+<a class="navbar-brand" href={% url 'perfil' %}><img height="600px" src="{{ imagen }}" alt=""></a>
+{% endblock %}
+
+<!--- NAVBAR -->
+{% block nav %}
+<li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar un nuevo destino</a>
+<li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a>
+<li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
+{% csrf_token %}
+{% endblock %}
+
+{% block titulo %}                 
+    <div class="container">
+        <div style="color:black" class="masthead-heading text-uppercase">Sobre nosotros</div>            
+    </div>
+{% endblock %}
+<!--- CONTENIDO -->
+{% block contenido %}
+{% endblock %}
+
+{% block portfolio %}
+<section class="page-section bg-light" id="#">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Nuestro grupo</h2>
+            <h3 class="section-subheading text-muted">Integrantes del grupo</h3>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <!-- Portfolio item 1-->
+                <div class="portfolio-item">
+                    <div class="portfolio-caption">
+                        <div class="portfolio-caption-heading">Guadalupe Alori</div>
+                        <div class="portfolio-caption-subheading text-muted">Estudiante</div>
+                        <div class="caption-subheading text-muted"> De 27 años. Inicié mis estudios sobre programación a comienzos del 2022 luego de abandonar la carrera de Artes Visuales. Actualmente me interesa formarme en el desarrollo web. </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <!-- Portfolio item 2-->
+                <div class="portfolio-item">
+                    <div class="portfolio-caption">
+                        <div class="portfolio-caption-heading">Rodrigo Medina</div>
+                        <div class="portfolio-caption-subheading text-muted">Graphic Design</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-6 mb-4">
+                <!-- Portfolio item 3-->
+                <div class="portfolio-item">
+                    <div class="portfolio-caption">
+                        <div class="portfolio-caption-heading">Fernando Rosenman</div>
+                        <div class="portfolio-caption-subheading text-muted">Identity</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block grupo %}
+{% endblock %}
+
+
+
+ 
+
+

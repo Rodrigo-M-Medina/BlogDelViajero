@@ -1,10 +1,16 @@
 {% extends "PadreHome.html" %}
 
+{% block nav %}
+<li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar un nuevo destino</a>
+<li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a>
+<li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
+{% csrf_token %}
+{% endblock %}
+
 
 {% block titulo %}
-
-
 {% endblock %}
+
 
 {% block contenido %} 
 

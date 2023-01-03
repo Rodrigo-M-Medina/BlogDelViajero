@@ -8,20 +8,29 @@
 
 <!--- NAVBAR -->
 {% block nav %}
+<li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar un nuevo destino</a>
 <li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a>
-<li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
 {% csrf_token %}
 {% endblock %}
 
 {% block bienvenida %}
-    <h1>{{mensaje}}</h1>
+    <div style="color:black" class="masthead-subheading">Perfil de {{ user }}</div>
     <br>
 {% endblock %}
 
+{% block titulo %}    
+{% endblock %}
 
 <!--- CONTENIDO -->
 {% block contenido %}
+    
+
+<br>
+<a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'fotoPerfil' %}>Cambiar Foto Perfil</a>
+<br>
+<a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'verusuarios' %}>Ver listado de usuarios</a>
+<br>
 {% endblock %}
 
  

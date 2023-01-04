@@ -8,9 +8,9 @@
 
 <!--- NAVBAR -->
 {% block nav %}
+<li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar destino</a></li>
+<li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
-<li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar un nuevo destino</a>
-<li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a>
 {% csrf_token %}
 {% endblock %}
 

@@ -42,10 +42,11 @@ class ImagenPerfilForm(forms.Form):
 #----------------- Formulario para postear --------------------
 class PosteoForm(forms.Form):
     titulo_posteo = forms.CharField(label="Ingrese título")
+    subtitulo_posteo = forms.CharField(label="Ingrese subtítulo")
     contenido_posteo = forms.CharField(widget=CKEditorWidget())
     imagen_post = forms.ImageField(label="Imagen")
 
     class Meta:
         model = Posteo
-        fields = ["titulo_posteo", "contenido_posteo", "imagen_post"]
+        fields = ["titulo_posteo", "subtitulo_posteo","contenido_posteo", "imagen_post"]
 

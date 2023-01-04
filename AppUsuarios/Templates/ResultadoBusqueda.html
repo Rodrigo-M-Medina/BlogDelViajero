@@ -30,36 +30,24 @@
     <input type="submit" value="buscar">
 
 </form>
-
-
-</head>
-<body>
-    <p>
-       {% for posteo in posteos %} {% csrf_token %}
-            <h3>{{posteo}} </h3>
-            Fecha de posteo: {{posteo.fecha_posteo_imagen}}
-            <br>
-            Creado por: {{posteo.usuario_posteo}}
-            <br>
-            <img height="100px" src={{ posteo.imagen_post.url }} alt="">
-            
-                
-                {% if user.is_superuser %}
-                    <button>
-                        <a href="{% url "eliminarposteo" posteo.id %}">Eliminar</a>
-                        <a href="{% url "editarposteo" posteo.id %}">Editar</a>
-                    </button>
-                {% endif %}
-            
-            <br>
-            <br>
-            <br>
-       {% endfor %}
-    </p>
-
-</body>
-</form>
 <br>
+
+{% if resultado %}
+<ul>
+    {% for resultado in resultado %}
+        <h3>{{ resultado.titulo_posteo }}</h3>
+        <h5>{{ resultado.subtitulo_posteo  }}</h5>
+        <p>{{ resultado.contenido_posteo | safe }}</p>
+        <img height="150px" src={{ resultado.imagen_post.url }} alt="imagen">
+        <li>Posteo creado por {{ resultado.usuario_posteo }}</li>
+        <br>
+        <h3>---------------------------------------------</h3>
+    {% endfor %}
+</ul>
+
+{% else %}
+<p> no existe ese titulo</p>
+{% endif %}
 
 {{ mensaje }}
 {% endblock %}

@@ -19,6 +19,7 @@ urlpatterns = [
     path("fotoPerfil/", fotoPerfil, name="fotoPerfil"), #Funcion para editar avatar
     path("perfil/", perfil, name="perfil"),
     path("sobrenosotros/", sobreNosotros, name="sobrenosotros"),
+    path("buscarposteo", buscar, name="buscarposteo"),
     
 ]
 

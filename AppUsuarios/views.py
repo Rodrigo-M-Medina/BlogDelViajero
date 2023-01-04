@@ -45,7 +45,7 @@ def registroUsuario(request):
 def verUsuarios(request):
     usuarios = User.objects.all()
     
-    return render(request, 'VerUsuarios.html', {"usuarios": usuarios}) 
+    return render(request, 'VerUsuarios.html', {"usuarios": usuarios,"imagen":mostrarImagen(request)}) 
     
 
 #----------- Inicio de sesion usuarios --------------
@@ -125,14 +125,14 @@ def agregarPosteo(request):
             posteo1=Posteo( titulo_posteo=titulo_posteo,contenido_posteo=contenido_posteo, imagen_post=imagen_post, fecha_posteo_imagen=fecha_posteo_imagen_forms  ,usuario_posteo=request.user) 
             posteo1.save()
 
-            return render(request, "Portal.html" )
+            return render(request, "VerPosteos.html",{"imagen":mostrarImagen(request)})
         else:
             return render(request,"Postear.html", {"mensaje":"Formulario invalido","form":form})
 
     else:
         formulario = PosteoForm()
 
-    return render(request, "Postear.html", {"form":formulario})
+    return render(request, "Postear.html", {"form":formulario,"imagen":mostrarImagen(request)})
 
 #------------------- Ver Posteo -------------------
 @login_required
@@ -142,7 +142,7 @@ def verPosteo(request):
 
     datos= {"posteos":posteos}
 
-    return render(request,"VerPosteos.html",datos)
+    return render(request,"VerPosteos.html",{"posteos":posteos,"imagen":mostrarImagen(request)})
 
 
 #----------------- Editar Posteo -------------------
@@ -163,9 +163,9 @@ def editarPosteo(request,id):
 
             posteo.save()
 
-            return render(request,"Portal.html", {"mensaje":"Posteo editado correctamente"}) #Cambiar redireccionamiento
+            return render(request,"Portal.html", {"mensaje":"Posteo editado correctamente","imagen":mostrarImagen(request)}) #Cambiar redireccionamiento
         else: 
-            return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo"})
+            return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo"}) #Se rompe la edicion
     else:
         formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
 
@@ -182,17 +182,29 @@ def eliminarPosteo(request, id):
  
         posteo = {"posteos": posteo}
  
-        return render(request, "VerPosteos.html", posteo)
+        return render(request, "VerPosteos.html",{"posteos": posteo,"imagen":mostrarImagen(request)})
 
 
 
 #--------------------------- PERFIL -------------------------------
 @login_required
 def perfil(request):
-    return render(request, "Perfil.html")
+    return render(request, "Perfil.html",{"imagen":mostrarImagen(request)})
 
 
 #---------------------------- ABOUT US --------------------------------
 @login_required
 def sobreNosotros(request):
-     return render(request, "SobreNosotros.html")
+     return render(request, "SobreNosotros.html",{"imagen":mostrarImagen(request)})
+
+
+#-------------------------- BUSCAR POSTEO ---------------------------------
+@login_required
+def buscar(request):
+    if "titulo_posteo" in (request.GET):
+        var1=request.GET ["titulo_posteo"]
+        resultado=Posteo.objects.filter(titulo_posteo__icontains=var1)
+        return render(request,"ResultadoBusqueda.html", {"resultado":resultado})
+    else:
+        return render(request, "VerPosteos.html")
+

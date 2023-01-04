@@ -8,8 +8,8 @@
 
 <!--- NAVBAR -->
 {% block nav %}
-<li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar un nuevo destino</a>
-<li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a>
+<li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar destino</a></li>
+<li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
 {% csrf_token %}
 {% endblock %}
@@ -47,6 +47,7 @@
                     <div class="portfolio-caption">
                         <div class="portfolio-caption-heading">Rodrigo Medina</div>
                         <div class="portfolio-caption-subheading text-muted">Graphic Design</div>
+                        <div class="caption-subheading text-muted"></div>
                     </div>
                 </div>
             </div>
@@ -56,6 +57,7 @@
                     <div class="portfolio-caption">
                         <div class="portfolio-caption-heading">Fernando Rosenman</div>
                         <div class="portfolio-caption-subheading text-muted">Identity</div>
+                        <div class="caption-subheading text-muted">Escribí aca fer!!!!!!</div>
                     </div>
                 </div>
             </div>

@@ -41,7 +41,7 @@
             <br>
             Creado por {{posteo.usuario_posteo}}
             <br>
-            <img height="100px" src={{ posteo.imagen_post.url | safe }} alt="">
+            <img height="100px" src={{ posteo.imagen_post.url }} alt="">
                 {% if user.is_superuser %}
                     <button>
                         <a href="{% url "eliminarposteo" posteo.id %}">Eliminar</a>

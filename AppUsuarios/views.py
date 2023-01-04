@@ -18,10 +18,17 @@ from django.contrib.auth.decorators import login_required
 
 
 
-#----------- Pagina de inicio ----------------
+#-------------------------------- PAGINA DE INICIO -------------------------------------------------------
 
 def paginaInicio(request):
     return render(request, "Inicio.html")
+
+
+#-------------------------------------- PORTAL/home ----------------------------------------
+
+@login_required
+def portal(request, usuario):
+    return render(request, "Portal.html", {"mensaje": f"bienvenido {usuario}", "imagen":mostrarImagen(request)})
 
 
 #-------------------------------------------- USUARIOS ----------------------------------------
@@ -70,11 +77,7 @@ def ingresoUsuario(request):
     
     return render (request, "IngresoUsuario.html",{"form":form})
 
-#----------------------- Portal ----------------------------------------
 
-@login_required
-def portal(request, usuario):
-    return render(request, "Portal.html", {"mensaje": f"bienvenido {usuario}", "imagen":mostrarImagen(request)})
 
 #-------  FUNCION PARA AGREGAR IMAGEN ---------
 @login_required
@@ -106,6 +109,9 @@ def mostrarImagen(request):
 
 
 
+
+
+
 #------------------------------------------ POSTEOS ------------------------------------------------------------
 
 #-----------------  Agregar Posteo -------------------
@@ -115,14 +121,16 @@ def agregarPosteo(request):
     if request.method == "POST":
         form = PosteoForm(request.POST, request.FILES)
         if form.is_valid():
+
             datos=form.cleaned_data
 
             titulo_posteo=datos["titulo_posteo"]
+            subtitulo_posteo=datos["subtitulo_posteo"]
             contenido_posteo=datos["contenido_posteo"]
             imagen_post=datos["imagen_post"]
             fecha_posteo_imagen_forms= datetime.now()
                       
-            posteo1=Posteo( titulo_posteo=titulo_posteo,contenido_posteo=contenido_posteo, imagen_post=imagen_post, fecha_posteo_imagen=fecha_posteo_imagen_forms  ,usuario_posteo=request.user) 
+            posteo1=Posteo( titulo_posteo=titulo_posteo,subtitulo_posteo=subtitulo_posteo,contenido_posteo=contenido_posteo, imagen_post=imagen_post, fecha_posteo_imagen=fecha_posteo_imagen_forms  ,usuario_posteo=request.user) 
             posteo1.save()
 
             return render(request, "VerPosteos.html",{"imagen":mostrarImagen(request)})
@@ -133,6 +141,7 @@ def agregarPosteo(request):
         formulario = PosteoForm()
 
     return render(request, "Postear.html", {"form":formulario,"imagen":mostrarImagen(request)})
+
 
 #------------------- Ver Posteo -------------------
 @login_required
@@ -155,21 +164,25 @@ def editarPosteo(request,id):
         formularioposteo = PosteoForm(request.POST, request.FILES)
 
         if formularioposteo.is_valid():
-            datos = formularioposteo.cleaned_data 
+
+            datos = formularioposteo.cleaned_data
+
             posteo.titulo_posteo = datos["titulo_posteo"]
+            posteo.subtitulo_posteo = datos["subtitulo_posteo"]
             posteo.contenido_posteo = datos["contenido_posteo"]
             posteo.imagen_post = datos["imagen_post"]
             posteo.fecha_posteo_imagen = datetime.now()
 
             posteo.save()
 
-            return render(request,"Portal.html", {"mensaje":"Posteo editado correctamente","imagen":mostrarImagen(request)}) #Cambiar redireccionamiento
+            return render(request,"VerPosteos.html", {"mensaje":"Posteo editado correctamente","imagen":mostrarImagen(request)}) #Cambiar redireccionamiento
         else: 
             return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo"}) #Se rompe la edicion
     else:
-        formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
+        formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
 
-        return render(request,"EditarPosteo.html", {"formularioposteo":formularioposteo,"posteo":posteo})
+    return render(request,"EditarPosteo.html", {"formularioposteo":formularioposteo,"posteo":posteo})
+
 
 
 #---------------- Eliminar posteo ----------------

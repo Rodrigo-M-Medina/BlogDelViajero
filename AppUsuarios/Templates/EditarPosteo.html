@@ -12,15 +12,15 @@
 
 {% block contenido %} 
 
-<h1>Editar posteo </h1>
+<h1>Editar posteo {{ posteo }}</h1>
 <br>
 <form action="{% url 'editarposteo' posteo.id %}" method="POST" enctype="multipart/form-data">
 
 
-    {% csrf_token %}
     
-    {{  formularioposteo.media|safe }}
-    {{  formularioposteo.as_p|safe }}
+    {{  formularioposteo.as_p|safe }}{% csrf_token %}
+    {{  formularioposteo.media|safe }}{% csrf_token %}
+    
 
     
     <input type="submit" value="Editar Posteo">

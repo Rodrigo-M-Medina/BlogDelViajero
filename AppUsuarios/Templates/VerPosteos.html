@@ -24,38 +24,36 @@
 <br>
 
 <form action="{% url 'buscarposteo' %}" method="GET"> 
-
     <input type="text" name="titulo_posteo" id="titulo_posteo">
-
     <input type="submit" value="buscar">
 
 </form>
+<br>
 
 
 </head>
 <body>
-    <p>
-       {% for posteo in posteos %} {% csrf_token %}
-            <h3>{{posteo}} </h3>
-            Fecha de posteo: {{posteo.fecha_posteo_imagen}}
+    <div>
+       {% for posteo in posteos %} {% csrf_token %} 
             <br>
-            Creado por: {{posteo.usuario_posteo}}
+            <a class="box" href="#Redirigir a pagina de posteo"><h3>{{posteo}}</h3></a>
+            Fecha de posteo {{posteo.fecha_posteo_imagen}}
             <br>
-            <img height="100px" src={{ posteo.imagen_post.url }} alt="">
-            
-                
+            Creado por {{posteo.usuario_posteo}}
+            <br>
+            <img height="100px" src={{ posteo.imagen_post.url | safe }} alt="">
                 {% if user.is_superuser %}
                     <button>
                         <a href="{% url "eliminarposteo" posteo.id %}">Eliminar</a>
                         <a href="{% url "editarposteo" posteo.id %}">Editar</a>
                     </button>
                 {% endif %}
-            
             <br>
             <br>
-            <br>
+            <h3>--------------------------------------------------------</h3>
        {% endfor %}
-    </p>
+    </div>
+    
 
 </body>
 </form>

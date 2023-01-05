@@ -165,16 +165,17 @@ def editarPosteo(request,id):
     posteo=Posteo.objects.get(id=id)
 
     if request.method == "POST":
-        formularioposteo = PosteoForm(request.POST, request.FILES)
+        formularioposteo = PosteoForm(request.POST, request.FILES, initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
 
         if formularioposteo.is_valid():
 
             datos = formularioposteo.cleaned_data
 
+                    
+            posteo.imagen_post = datos["imagen_post"]
             posteo.titulo_posteo = datos["titulo_posteo"]
             posteo.subtitulo_posteo = datos["subtitulo_posteo"]
             posteo.contenido_posteo = datos["contenido_posteo"]
-            posteo.imagen_post = datos["imagen_post"]
             posteo.fecha_posteo_imagen = datetime.now()
 
             posteo.save()
@@ -182,7 +183,8 @@ def editarPosteo(request,id):
             return render(request,"VerPosteos.html", {"mensaje":"Posteo editado correctamente","imagen":mostrarImagen(request)}) #Cambiar redireccionamiento
         else: 
             print(formularioposteo.errors.as_data())
-            #return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo"}) #Se rompe la edicion
+            formularioposteo = PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
+            return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo", "formularioposteo":formularioposteo}) #Se rompe la edicion
     else:
         formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
 
@@ -240,7 +242,12 @@ def buscar(request):
     if "titulo_posteo" in (request.GET):
         var1=request.GET ["titulo_posteo"]
         resultado=Posteo.objects.filter(titulo_posteo__icontains=var1)
-        return render(request,"ResultadoBusqueda.html", {"resultado":resultado})
+        return render(request,"ResultadoBusqueda.html", {"resultado":resultado,"imagen":mostrarImagen(request)})
     else:
         return render(request, "VerPosteos.html")
 
+def paginaPosteo(request,id):
+
+    paginaposteo=Posteo.objects.get(id=id)
+
+    return render(request, "PaginaPosteo.html",{"imagen":mostrarImagen(request), "paginaposteo":paginaposteo})

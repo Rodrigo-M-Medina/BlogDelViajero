@@ -1,24 +1,30 @@
 {% extends "PadreHome.html" %}
 
 {% block avatar %}
-<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="200px" src="" alt="">{{user}}</a>
+<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="100px" src="" alt="">{{user}}</a>
 <br>
-<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="600px" src="{{ imagen }}" alt=""></a>
+<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="100px" src="{{ imagen }}" alt=""></a>
 {% endblock %}
 
 <!--- NAVBAR -->
 {% block nav %}
+<li class="nav-item"><a class="nav-link" href={% url 'portal' %}>Portal</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar destino</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
-{% csrf_token %}
+    {% if user.is_superuser %}
+        <li class="nav-item"><a class="nav-link" href={% url 'verusuarios' %}>Ver listado de usuarios</a></li>
+    {% endif %}
+    {% csrf_token %}
 {% endblock %}
 
 {% block bienvenida %}
     <div style="color:black" class="masthead-subheading">Perfil de {{ user }}</div>
     <br>
+    
+   
+    
 
-{{ perfil.email }}
 
 {% endblock %}
 
@@ -26,13 +32,20 @@
 {% endblock %}
 
 <!--- CONTENIDO -->
-{% block contenido %}
-    
+{% block contenido %} 
 
+Nombre de viajero: {{ perfil.username }}
 <br>
-<a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'fotoPerfil' %}>Cambiar Foto Perfil</a>
+Email del viajero: {{ perfil.email }}
 <br>
-<a class="list-group-item list-group-item-action list-group-item-light p-3" href={% url 'verusuarios' %}>Ver listado de usuarios</a>
+
+<img height="100px" src={{ imagen | safe }} alt="">
+<button>
+    <a href={% url 'fotoPerfil' %}>Cambiar Foto Perfil</a>
+</button>
+
+
+
 <br>
 {% endblock %}
 

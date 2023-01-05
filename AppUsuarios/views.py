@@ -1,21 +1,46 @@
-from django.shortcuts import render, redirect
 #-------------- imports de funciones de django ----------
+from django.shortcuts import render
 from django.contrib.auth import login, authenticate
-#--------------- imports de forms creados en forms.py -----------
-from AppUsuarios.forms import FormUsuario, FormEditarUsuario, PosteoForm, ImagenPerfilForm
-#--------------- imports de forms existentes en django ------------
-from django.contrib.auth.forms import AuthenticationForm
-
-from AppUsuarios.models import Posteo, ImagenPerfil
-
-from django.contrib.auth.models import User
-
-from datetime import datetime
-
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
+from django.db.models import Q #te permite convinar los objetos del OR |
+from datetime import datetime
+#--------------- imports de forms creados en forms.py -----------
+from AppUsuarios.forms import FormUsuario, PosteoForm, ImagenPerfilForm, BuscarMensajes, MensajeForm
+#--------------- imports models creados en models.py ----------
+from AppUsuarios.models import Posteo, ImagenPerfil, Chat
+#--------------- imports de forms existentes en django ------------
 
 
+#----------------- MENSAJERIA -------------------------- INCOMPLETA
 
+def MandarMensajes(request):#por ahora solo puedo mandar mensajes desde un opcion de mensajes 
+    if request.method == 'POST':
+        form = MensajeForm(request.POST)
+        if form.is_valid():
+            # Guardando mensaje en la base de datos
+            mensaje = form.save(commit=False)#commit false? se supone que es un booleano que me deja ver el mensaje antes de guardar
+            mensaje.salida = request.user
+            mensaje.tiempo = datetime.now()
+            mensaje.save()
+            return render(request, 'mandarMensajes.html', {'form': form})
+    else:
+        form = MensajeForm() 
+    return render(request, 'mandarMensajes.html', {'form': form})
+
+def mensajes(request):
+    if request.method == 'POST':
+        form = BuscarMensajes(request.POST)
+        if form.is_valid():
+            seleccionar_usuario = form.cleaned_data['users']
+            mensaje = Chat.objects.filter(
+                Q(entrada__in=seleccionar_usuario) | Q(salida__in=seleccionar_usuario)
+            ).order_by('tiempo')
+            return render(request, 'mensajes.html', {'mensaje': mensaje})
+    else:
+        form = BuscarMensajes()
+    return render(request, 'mensajes.html', {'form': form})
 
 
 #----------- Pagina de inicio ----------------

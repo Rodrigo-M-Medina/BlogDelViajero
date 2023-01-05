@@ -20,6 +20,8 @@ urlpatterns = [
     path("perfil/", perfil, name="perfil"),
     path("sobrenosotros/", sobreNosotros, name="sobrenosotros"),
     path("buscarposteo", buscar, name="buscarposteo"),
-    
+   #PATH PARA MENSAJERIA
+    path("chat/", MandarMensajes, name="chat"),
+    path('mensajes/', mensajes, name='mensajes'), 
 ]
 

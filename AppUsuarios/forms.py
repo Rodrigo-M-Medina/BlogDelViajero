@@ -4,6 +4,16 @@ from django.contrib.auth.models import User
 from .models import *
 from ckeditor.widgets import CKEditorWidget
 
+#--------------------- MENSAJERIA -----------------------
+
+class BuscarMensajes(forms.Form):
+    users = forms.ModelMultipleChoiceField(queryset=User.objects.all()) # me permite literalmente tener una opcion para elegir usuarios en este caso
+
+class MensajeForm(forms.ModelForm):#solo necesito traer por meta el model Chat y sus field 
+    class Meta:
+        model = Chat
+        fields = ['entrada', 'mensaje']
+
 
 #------------------------------------------ USUARIOS ------------------------------------------------
 

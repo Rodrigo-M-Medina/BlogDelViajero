@@ -31,34 +31,14 @@
 </form>
 <br>
 
+{{ paginaposteo.titulo_posteo }}
+{{ paginaposteo.subtitulo_posteo}}
+{{ paginaposteo.contenido_posteo | safe}}
+{{ paginaposteo.fecha_posteo_imagen }}
+{{ paginaposteo.usuario_posteo }}
+<img height="250px" src={{ paginaposteo.imagen_post.url |safe }} alt="">
 
-</head>
-<body>
-    <div>
-       {% for posteo in posteos %} {% csrf_token %} 
-            <br>
-            <a class="box" href="#Redirigir a pagina de posteo"><h3>{{posteo}}</h3></a>
-            Fecha de posteo {{posteo.fecha_posteo_imagen}}
-            <br>
-            Creado por {{posteo.usuario_posteo}}
-            <br>
-            <img height="100px" src={{ posteo.imagen_post.url }} alt="">
-                {% if user.is_superuser or user.is_usuario_posteo %}
-                    <button>
-                        <a href="{% url "eliminarposteo" posteo.id %}">Eliminar</a>
-                        <a href="{% url "editarposteo" posteo.id %}">Editar</a>
-                    </button>
-                {% endif %}
-            <br>
-            <br>
-            <h3>--------------------------------------------------------</h3>
-       {% endfor %}
-    </div>
-    
 
-</body>
-</form>
-<br>
 
 {{ mensaje }}
 {% endblock %}

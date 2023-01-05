@@ -15,6 +15,9 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 
 
+from django.http import HttpResponseNotFound
+
+
 
 
 
@@ -246,8 +249,14 @@ def buscar(request):
     else:
         return render(request, "VerPosteos.html")
 
+
 def paginaPosteo(request,id):
 
-    paginaposteo=Posteo.objects.get(id=id)
+    paginaposteo = Posteo.objects.get(id=id)
 
     return render(request, "PaginaPosteo.html",{"imagen":mostrarImagen(request), "paginaposteo":paginaposteo})
+
+
+
+def error_404_view(request, exception):
+    return render(request, HttpResponseNotFound, status=404)

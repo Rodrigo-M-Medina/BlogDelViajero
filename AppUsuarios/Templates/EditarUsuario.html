@@ -7,8 +7,8 @@
 {% endblock %}
 
 {% block nav %}
-<li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar destino</a>
-<li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a>
+<li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar destino</a></li>
+<li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
 {% csrf_token %}
 {% endblock %}
@@ -19,20 +19,17 @@
 
 {% block contenido %} 
 
-<h1>Ver Usuarios </h1>
-<br>
-<h4>Click para editar</h4>
+<body>    
+    <h1 style="color:black">Editar usuario</h1>
+    <br>
+    <form action="{% url 'editarusuario' user.id %}" method="POST"> {% csrf_token %}
+        <table>
+            {{ form.as_table }}
 
-</head>
-<body>
-    {% for user in usuarios %} {% csrf_token %}
-    <li><a class="box" href="{% url 'editarusuario' user.id %}"><b>{{ user.username }}</b></a></li>
-    
-   
-    {% endfor %}
+        </table>
+        <input type="submit" value="Editar Usuario">
+    </form>
+    <br>
 </body>
-</form>
-<br>
 
-{{ mensaje }}
 {% endblock %}

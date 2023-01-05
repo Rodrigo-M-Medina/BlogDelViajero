@@ -27,8 +27,8 @@ def paginaInicio(request):
 #-------------------------------------- PORTAL/home ----------------------------------------
 
 @login_required
-def portal(request, usuario):
-    return render(request, "Portal.html", {"mensaje": f"bienvenido {usuario}", "imagen":mostrarImagen(request)})
+def portal(request):
+    return render(request, "Portal.html", {"imagen":mostrarImagen(request)})
 
 
 #-------------------------------------------- USUARIOS ----------------------------------------
@@ -45,6 +45,10 @@ def registroUsuario(request):
     else:
         form = FormUsuario()
     return render(request, 'RegistroUsuario.html',{"form":form})
+
+
+
+
 
 
 #---------- Ver usuarios ------------------
@@ -177,13 +181,29 @@ def editarPosteo(request,id):
 
             return render(request,"VerPosteos.html", {"mensaje":"Posteo editado correctamente","imagen":mostrarImagen(request)}) #Cambiar redireccionamiento
         else: 
-            return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo"}) #Se rompe la edicion
+            print(formularioposteo.errors.as_data())
+            #return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo"}) #Se rompe la edicion
     else:
         formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
 
     return render(request,"EditarPosteo.html", {"formularioposteo":formularioposteo,"posteo":posteo})
 
 
+def editarUsuario(request,id):
+
+    usuario = User.objects.get(id=id)
+    
+    if request.method=="POST":
+        form=FormUsuario(request.POST)
+
+        if form.is_valid():
+            username=form.cleaned_data["username"]
+            
+            form.save()
+            return render(request, "Perfil.html")
+    else:
+        form = FormUsuario(initial = {"nombre":usuario.username,"email":usuario.email})
+    return render(request, 'EditarUsuario.html',{"form":form})
 
 #---------------- Eliminar posteo ----------------
 @login_required
@@ -201,8 +221,11 @@ def eliminarPosteo(request, id):
 
 #--------------------------- PERFIL -------------------------------
 @login_required
-def perfil(request):
-    return render(request, "Perfil.html",{"imagen":mostrarImagen(request)})
+def perfil(request,id):
+
+    perfil = User.objects.get(id=id)
+
+    return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "perfil":perfil})
 
 
 #---------------------------- ABOUT US --------------------------------

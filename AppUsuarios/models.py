@@ -9,7 +9,7 @@ class Posteo(models.Model):
     titulo_posteo = models.CharField(max_length=40)
     subtitulo_posteo = models.CharField(max_length=40,default='hola')
     contenido_posteo = RichTextField(blank=True,null=True)
-    imagen_post = models.ImageField(upload_to='posteos')
+    imagen_post = models.ImageField(upload_to='posteos', blank=True)
     fecha_posteo_imagen = models.DateField(blank=True, null=True)
 
     def __str__(self):

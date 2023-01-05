@@ -258,5 +258,4 @@ def paginaPosteo(request,id):
 
 
 
-def error_404_view(request, exception):
-    return render(request, HttpResponseNotFound, status=404)
+

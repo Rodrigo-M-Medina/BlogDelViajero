@@ -18,37 +18,27 @@
     {% csrf_token %}
 {% endblock %}
 
-{% block bienvenida %}
-    <div style="color:black" class="masthead-subheading">Perfil de {{ user }}</div>
-    <br>
-    
-   
-    
-
-
-{% endblock %}
-
-{% block titulo %}    
+{% block titulo %}
+<h1 style="color:black"> Perfil de {{ user }} </h1>    
 {% endblock %}
 
 <!--- CONTENIDO -->
 {% block contenido %} 
+<center>
+    Nombre de viajero: {{ perfil.username }}
+    <br>
+    Email del viajero: {{ perfil.email }}
+    <br>
 
-Nombre de viajero: {{ perfil.username }}
-<br>
-Email del viajero: {{ perfil.email }}
-<br>
-
-<img height="100px" src={{ imagen | safe }} alt="">
-<button>
-    <a href={% url 'fotoPerfil' %}>Cambiar Foto Perfil</a>
-</button>
-
-
-
-<br>
+    <img height="100px" src={{ imagen | safe }} alt="">
+    <button>
+        <a href={% url 'fotoPerfil' %}>Cambiar Foto Perfil</a>
+    </button>  
+</center>
 {% endblock %}
 
+{% block portfolio %}
+{% endblock %}
  
 
 

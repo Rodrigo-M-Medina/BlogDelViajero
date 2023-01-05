@@ -16,24 +16,23 @@
 
 
 {% block titulo %}
+<h1 style="color:black">Ver Usuarios </h1>
 {% endblock %}
 
+
 {% block contenido %} 
-
-<h1>Ver Usuarios </h1>
-<br>
-<h4>Click para editar</h4>
-
-</head>
-<body>
+<center>
+    <h4>Click para editar</h4>
+    
     {% for user in usuarios %} {% csrf_token %}
     <li><a class="box" href="{% url 'editarusuario' user.id %}"><b>{{ user.username }}</b></a></li>
     
    
     {% endfor %}
-</body>
-</form>
-<br>
 
+</center>
 {{ mensaje }}
+{% endblock %}
+
+{% block portfolio %}
 {% endblock %}

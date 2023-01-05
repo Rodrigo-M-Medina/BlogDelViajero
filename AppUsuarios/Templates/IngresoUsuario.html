@@ -7,19 +7,23 @@
 
 
 {% block titulo %}
+<h1 style="color:black">Ingresar usuario</h1>
 {% endblock %}
 
 {% block contenido %} 
-<h1 style="color:black">Ingresar usuario</h1>
-<br>
+<CENTER>
+    <br>
     <form action="{% url 'ingresousuario' %}" method="POST"> {% csrf_token %}
         <table>
             {{ form.as_table }}
 
         </table>
+        <br>
         <input  type="submit" value="Ingresar">
     </form>
     <br>
     <p>¿No tenés cuenta? <a class="box" href="{% url 'registrousuario' %}"><b>Registrate</b></a> </p>
+</CENTER>
+
 {% endblock %}
 

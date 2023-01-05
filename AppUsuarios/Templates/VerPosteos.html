@@ -16,12 +16,7 @@
 
 
 {% block titulo %}
-{% endblock %}
-
-
-{% block contenido %} 
-
-<h1> Encontrá tu próximo destino acá: </h1>
+<h1 style="color:black"> Encontrá tu próximo destino acá: </h1>
 <br>
 
 <form action="{% url 'buscarposteo' %}" method="GET"> 
@@ -30,35 +25,34 @@
 
 </form>
 <br>
+{% endblock %}
 
 
-</head>
-<body>
-    <div>
-       {% for posteo in posteos %} {% csrf_token %} 
-            <br>
-            <a class="box" href={% url 'paginaposteo' posteo.id %}><h3>{{posteo}}</h3></a>
-            Fecha de posteo {{posteo.fecha_posteo_imagen}}
-            <br>
-            Creado por {{posteo.usuario_posteo}}
-            <br>
-            <img height="100px" src={{ posteo.imagen_post.url }} alt="">
-                {% if user.is_superuser or user.is_usuario_posteo %}
-                    <button>
-                        <a href="{% url "eliminarposteo" posteo.id %}">Eliminar</a>
-                        <a href="{% url "editarposteo" posteo.id %}">Editar</a>
-                    </button>
-                {% endif %}
-            <br>
-            <br>
-            <h3>--------------------------------------------------------</h3>
-       {% endfor %}
-    </div>
-    
+{% block contenido %} 
 
-</body>
-</form>
-<br>
+
+
+<CENTER>
+{% for posteo in posteos %} {% csrf_token %} 
+        <br>
+        <a class="box" href={% url 'paginaposteo' posteo.id %}>
+            <h3>{{posteo}}</h3>
+            <h5>{{posteo.subtitulo_posteo}}</h5>
+        </a>
+        <img height="100px" src={{ posteo.imagen_post.url }} alt="">
+        <br> 
+        <blink>Creado por <em>{{posteo.usuario_posteo}}</em></blink>    
+        <br>
+        <small><i>Última edición {{posteo.fecha_posteo_imagen}}</i></small>
+        <br>
+        <h3>--------------------------------------------------------</h3>
+{% endfor %}
+</CENTER>
+       
+  
 
 {{ mensaje }}
+{% endblock %}
+
+{% block portfolio %}
 {% endblock %}

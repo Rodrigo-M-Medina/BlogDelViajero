@@ -22,9 +22,6 @@ urlpatterns = [
     path("buscarposteo", buscar, name="buscarposteo"),
     path("editarusuario/<id>", editarUsuario, name="editarusuario"),
     path("paginaposteo/<id>", paginaPosteo, name="paginaposteo"),
-    path("404",error_404_view,name="404")
-    
 ]
 
-handler404 = 'AppUsuarios.views.error_404_view'
 

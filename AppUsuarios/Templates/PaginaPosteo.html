@@ -16,12 +16,7 @@
 
 
 {% block titulo %}
-{% endblock %}
-
-
-{% block contenido %} 
-
-<h1> Encontrá tu próximo destino acá: </h1>
+<h1 style="color:black"> Encontrá tu próximo destino acá: </h1>
 <br>
 
 <form action="{% url 'buscarposteo' %}" method="GET"> 
@@ -30,13 +25,33 @@
 
 </form>
 <br>
+{% endblock %}
 
-{{ paginaposteo.titulo_posteo }}
-{{ paginaposteo.subtitulo_posteo}}
-{{ paginaposteo.contenido_posteo | safe}}
-{{ paginaposteo.fecha_posteo_imagen }}
-{{ paginaposteo.usuario_posteo }}
-<img height="250px" src={{ paginaposteo.imagen_post.url |safe }} alt="">
+
+{% block contenido %} 
+
+
+<CENTER>
+    <br>
+    <h1 style="color: #ffc800"><strong>{{ paginaposteo.titulo_posteo }}</strong></h1>
+    <h3><b>{{ paginaposteo.subtitulo_posteo}}</b></h3>
+    <p>{{ paginaposteo.contenido_posteo | safe}} </p>
+    <p>Creado por <em>{{ paginaposteo.usuario_posteo }}</em></p>
+    <small><i>Última edición el {{ paginaposteo.fecha_posteo_imagen }} </i></small>
+    <br>
+    <img height="250px" src={{ paginaposteo.imagen_post.url |safe }} alt="">
+    <br>
+    <br>
+    {% if user.is_superuser or user.is_usuario_posteo %}
+        <button>
+            <a href="{% url "eliminarposteo" paginaposteo.id %}">Eliminar</a>
+            <a href="{% url "editarposteo" paginaposteo.id %}">Editar</a>
+        </button>
+    {% endif %}
+
+
+</CENTER>
+
 
 
 

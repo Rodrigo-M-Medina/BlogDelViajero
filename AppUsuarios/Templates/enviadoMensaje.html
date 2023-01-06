@@ -1,0 +1,55 @@
+{% extends "PadreHome.html" %}
+
+{% block avatar %}
+<a class="navbar-brand" href={% url 'perfil' %}><img height="200px" src="" alt="">{{user}}</a>
+<br>
+<a class="navbar-brand" href={% url 'perfil' %}><img height="600px" src="{{ imagen }}" alt=""></a>
+{% endblock %}
+
+{% block nav %}
+<li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar destino</a></li>
+<li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a></li>
+<li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
+<li class="nav-item"><a class="nav-link" href={% url 'chat' %}>chat</a></li>
+{% csrf_token %}
+{% endblock %}
+
+
+{% block titulo %}
+
+{% endblock %}
+
+{% block contenido %} 
+<div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <hr class="my-4" />
+      <h2 class="post-title">Casilla de Mensajes</h2>
+      <br>
+        <div>
+            <a class="btn btn-primary text-uppercase" href="{% url 'chat' %}">Enviar mensaje</a> 
+            <a class="btn btn-primary text-uppercase" href="{% url 'leerMensaje' %}">Mensajes recibidos</a>
+            <a class="btn btn-primary text-uppercase" href="{% url 'enviadoMensaje' %}">Mensajes enviados</a>
+            <table id="tmsj">
+                <tr>
+                    <th id="msjT">Para:       </th>
+                    <th id="msjT">Mensajes:   </th>
+                    <th id="msjT">hora        </th>
+                    <th id="msjT">leido       </th>
+                </tr>
+                {% for casilla in mensajes %}
+                <tr>
+                    <td id="msj">{{ casilla.entrada }}</td>
+                    <td id="msj">{{ casilla.mensaje|safe }}</td>
+                    <td id="msj">{{ casilla.tiempo }}</td>
+                    <td id="msj">{{ casilla.leido }}</td>
+                </tr>   
+                {% endfor %}
+            </table>
+            <br>
+        </div>
+        <br>
+    </div>
+</div>
+{% endblock %}
+
+

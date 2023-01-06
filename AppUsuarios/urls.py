@@ -13,7 +13,7 @@ urlpatterns = [
     path("postear/", agregarPosteo, name='postear'),
     path("verposteo/", verPosteo, name="verposteo"),
     path("editarposteo/<id>", editarPosteo, name="editarposteo"),
-    path("eliminarposteo/<id>", eliminarPosteo, name="eliminarposteo"),
+    path("eliminarposteo/", eliminarPosteo, name="eliminarposteo"),
     path("verusuarios", verUsuarios, name = "verusuarios"),
     path("desconectarse/", LogoutView.as_view(next_page='paginainicio'), name='desconectarse'),#Funcion para desconectarse
     path("fotoPerfil/", fotoPerfil, name="fotoPerfil"), #Funcion para editar avatar

@@ -46,7 +46,11 @@
     <br>
     {% if user.is_superuser or user.is_usuario_posteo %}
         <button>
-            <a href="{% url "eliminarposteo" paginaposteo.id %}">Eliminar</a>
+            <form action="{% url 'eliminarposteo' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="borrar">
+                <input type="hidden" name="id" value="{{ paginaposteo.id }}">
+              </form>
             <a href="{% url "editarposteo" paginaposteo.id %}">Editar</a>
         </button>
     {% endif %}

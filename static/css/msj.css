@@ -12,9 +12,14 @@ padding: 0.3em;
 }
 
 #msj {
-    text-align: center; 
-    border: 1px solid #000; 
-    width: 25%; 
-    border-spacing: 0; 
+    text-align: center;
+    border: 1px solid #000;
+    width: 25%;
+    border-spacing: 0;
     padding: 0.3em;
 }
+
+#barra {
+    max-height: 100px;
+    overflow: scroll;
+  }

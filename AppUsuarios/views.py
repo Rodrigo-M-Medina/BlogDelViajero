@@ -1,5 +1,5 @@
 #-------------- imports de funciones de django ----------
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
@@ -205,15 +205,15 @@ def editarUsuario(request,id):
 
 #---------------- Eliminar posteo ----------------
 @login_required
-def eliminarPosteo(request, id):
-    
-        posteo = Posteo.objects.get(id = id) #Evitar que se rompa al volver atras. Que no tariga mas un id
+def eliminarPosteo(request):
+
+    if request.method == 'POST':
+        id = request.POST['id']
+        posteo = get_object_or_404(Posteo, pk=id)
         posteo.delete()
-        posteo = Posteo.objects.all()
- 
-        posteo = {"posteos": posteo}
- 
-        return render(request, "Portal.html",{"posteos": posteo,"imagen":mostrarImagen(request)})
+        return redirect('verposteo')
+
+    return redirect('verposteo')
 
 
 

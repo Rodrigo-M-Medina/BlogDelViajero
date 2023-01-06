@@ -16,11 +16,11 @@
     <br>
     <form action="{% url 'registrousuario' %}" method="POST"> {% csrf_token %}
         <table>
-            {{ form.as_table }}
+            <h1>{{ form.as_table }}</h1>
 
         </table>
         <br>
-        <input type="submit" value="Registrar Usuario">
+        <input class="btn btn-primary btn-s text-uppercase" type="submit" value="Registrar Usuario">
     </form>
     <br>
     <p>¿Ya tenés una cuenta? <a class="box" href="{% url 'ingresousuario' %}"><b>Ingresá</b></a> </p>

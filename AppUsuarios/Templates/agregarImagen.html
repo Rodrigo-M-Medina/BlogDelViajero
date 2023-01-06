@@ -12,23 +12,26 @@
 {% endblock %}
 
 
-{% block contenido %} 
-
-<img height="200px" src="{{ imagen }}" alt="">
-
+{% block contenido %}
+<center>
+<hr width="45%">
+ <img height="200px" src="{{ imagen }}" alt="">
+<br>
 
 
 <form action="{% url 'fotoPerfil'  %}" method="POST"  enctype="multipart/form-data"> {% csrf_token %}
-
+    <br>
     <table>
     
         {{ formulario.as_table }}
     
     </table>
+    <br>
+    <input class="btn btn-primary btn-s text-uppercase" type="submit" value="Agregar Imagen">
     
-    <input type="submit" value="Agregar Imagen">
     
-    
-    </form>
+    </form>   
+<hr width="45%">
+</center> 
 
  {% endblock %}

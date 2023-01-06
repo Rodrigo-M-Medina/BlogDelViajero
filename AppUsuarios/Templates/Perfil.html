@@ -25,15 +25,18 @@
 <!--- CONTENIDO -->
 {% block contenido %} 
 <center>
-    Nombre de viajero: {{ perfil.username }}
+    
     <br>
-    Email del viajero: {{ perfil.email }}
+    <h3>Nombre de viajero: {{ perfil.username }}</h3>
     <br>
-
-    <img height="100px" src={{ imagen | safe }} alt="">
-    <button>
-        <a href={% url 'fotoPerfil' %}>Cambiar Foto Perfil</a>
-    </button>  
+    <h3>Email del viajero: {{ perfil.email }}</h3>
+    <br>
+    <img height="200px" src={{ imagen | safe }} alt="">
+    <br>
+    <br>
+    <a class="btn btn-primary btn-s text-uppercase" href={% url 'fotoPerfil' %}>Cambiar Foto Perfil</a>
+    <hr width="45%">
+     
 </center>
 {% endblock %}
 

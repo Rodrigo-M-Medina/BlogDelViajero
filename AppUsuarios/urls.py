@@ -22,6 +22,8 @@ urlpatterns = [
     path("buscarposteo", buscar, name="buscarposteo"),
    #PATH PARA MENSAJERIA
     path("chat/", MandarMensajes, name="chat"),
-    path('mensajes/', mensajes, name='mensajes'), 
+    path("mensajeUsuarios", mensajeUsuarios , name = "mensajeUsuarios"),
+    path("leerMensaje", leerMensaje , name = "leerMensaje"),
+    path("enviadoMensaje", enviadoMensaje , name = "enviadoMensaje"),
 ]
 

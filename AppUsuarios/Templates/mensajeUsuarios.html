@@ -20,25 +20,19 @@
 {% endblock %}
 
 {% block contenido %} 
-<form method="post" action="{% url 'mensajes' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="buscar">
-</form>
-<br><br>
-
-{% for mensaje1 in mensaje %}
-    <p>De: {{ mensaje1.salida }}</p>
-    <p>Para: {{ mensaje1.entrada }}</p>
-    <p>Mensaje: {{ mensaje1.mensaje }}</p>
-    <p>tiempo: {{ mensaje1.tiempo}}</p>
-    {% if mensaje1.leido is true %}
-    <p>mensaje leido </p>
-    {% else %}
-    <p>mensaje no leido</p>
-    {% endif %}
-    <hr>
-{% endfor %}
-
+<div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <hr class="my-4" />
+      <h2 class="post-title">Casilla de Mensajes</h2>
+      <br>
+        <div>
+            <a class="btn btn-primary text-uppercase" href="{% url 'chat' %}">Enviar mensaje</a> 
+            <a class="btn btn-primary text-uppercase" href="{% url 'leerMensaje' %}">Mensajes recibidos</a>
+            <a class="btn btn-primary text-uppercase" href="{% url 'enviadoMensaje' %}">Mensajes enviados</a>
+        </div>
+        <br>
+    </div>
+</div>
+    {{ mensaje }}
 
 {% endblock %}

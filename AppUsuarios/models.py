@@ -11,7 +11,8 @@ from django.contrib.auth.models import User
 class Posteo(models.Model):
     usuario_posteo = models.ForeignKey(User, on_delete=models.CASCADE)
     titulo_posteo = models.CharField(max_length=40)
-    subtitulo_posteo = models.CharField(max_length=40,default='hola')
+    subtitulo_posteo = models.CharField(max_length=40,default='Provincia')
+    subtitulo2_posteo = models.CharField(max_length=40,default='Pais')
     contenido_posteo = RichTextField(blank=True,null=True)
     imagen_post = models.ImageField(upload_to='posteos', blank=True)
     fecha_posteo_imagen = models.DateField(blank=True, null=True)

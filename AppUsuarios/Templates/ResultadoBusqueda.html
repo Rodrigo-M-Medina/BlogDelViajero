@@ -23,12 +23,12 @@
 
 <form action="{% url 'buscarposteo' %}" method="GET"> 
 
-    <input type="text" name="titulo_posteo" id="titulo_posteo">
+    <p>Buscar por destino:<input type="text" name="titulo_posteo" id="titulo_posteo"> </p>
 
-    <input type="submit" value="buscar">
-
+    <input class="btn btn-primary btn-s text-uppercase" type="submit" value="buscar">
 </form>
-<br>
+
+
 {% endblock %}
 
 
@@ -59,4 +59,7 @@
 
 {{ mensaje }}    
 </center>
+{% endblock %}
+
+{% block portfolio %}
 {% endblock %}

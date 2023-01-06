@@ -16,16 +16,17 @@
 
 
 {% block titulo %}
-<h1 style="color:black">Ver Usuarios </h1>
+<h1 style="color:black">VER USUARIOS</h1>
 {% endblock %}
 
 
 {% block contenido %} 
 <center>
-    <h4>Click para editar</h4>
+    <br>
+    <h2>Click para editar</h2>
     
     {% for user in usuarios %} {% csrf_token %}
-    <li><a class="box" href="{% url 'editarusuario' user.id %}"><b>{{ user.username }}</b></a></li>
+    <h3><a class="box"  href="{% url 'editarusuario' user.id %}"><b>{{ user.username }}</b></a></h3>
     
    
     {% endfor %}

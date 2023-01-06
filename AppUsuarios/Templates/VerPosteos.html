@@ -7,9 +7,11 @@
 {% endblock %}
 
 {% block nav %}
+
 <li class="nav-item"><a class="nav-link" href={% url 'portal' %}>Portal</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar destino</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a></li>
+<li class="nav-item"><a class="nav-link" href={% url 'mensajeUsuarios' %}>Mensajería</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
 {% csrf_token %}
 {% endblock %}
@@ -22,9 +24,7 @@
 <form action="{% url 'buscarposteo' %}" method="GET"> 
     <input type="text" name="titulo_posteo" id="titulo_posteo">
     <input class="btn btn-primary btn-s text-uppercase" type="submit" value="buscar">
-
 </form>
-<br>
 {% endblock %}
 
 
@@ -36,7 +36,7 @@
 {% for posteo in posteos %} {% csrf_token %} 
         <br>
         <a class="box" href={% url 'paginaposteo' posteo.id %}>
-            <h3>{{posteo}}</h3>
+            <h3>{{posteo.titulo_posteo }}</h3>
             <h5>{{posteo.subtitulo_posteo}}</h5>
         </a>
         <img height="100px" src={{ posteo.imagen_post.url }} alt="">
@@ -47,11 +47,16 @@
         <br>
         <hr width=40%>
 {% endfor %}
+<br>
+
+
+{{ mensaje }}
+
 </CENTER>
        
   
 
-{{ mensaje }}
+
 {% endblock %}
 
 {% block portfolio %}

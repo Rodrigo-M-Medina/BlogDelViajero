@@ -7,20 +7,17 @@
 {% endblock %}
 
 {% block nav %}
+
 <li class="nav-item"><a class="nav-link" href={% url 'portal' %}>Portal</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'postear' %}>Agregar destino</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'verposteo' %}>Ver destinos</a></li>
+<li class="nav-item"><a class="nav-link" href={% url 'mensajeUsuarios' %}>Mensajería</a></li>
 <li class="nav-item"><a class="nav-link" href={% url 'desconectarse' %}>Desconectarse</a></li>
 {% csrf_token %}
 {% endblock %}
 
 
 {% block titulo %}
-{% endblock %}
-
-
-{% block contenido %} 
-
 <h1 style="color:black"> Encontrá tu próximo destino acá: </h1>
 <br>
 
@@ -32,17 +29,27 @@
 
 </form>
 <br>
+{% endblock %}
 
+
+{% block contenido %} 
+<center>.
 {% if resultado %}
 <ul>
     {% for resultado in resultado %}
-        <h3>{{ resultado.titulo_posteo }}</h3>
-        <h5>{{ resultado.subtitulo_posteo  }}</h5>
-        <p>{{ resultado.contenido_posteo | safe }}</p>
+        <a class="box" href={% url 'paginaposteo' resultado.id %}>
+            <h3>{{resultado}}</h3>
+            <h5>{{resultado.subtitulo_posteo}}</h5>
+        </a>
         <img height="150px" src={{ resultado.imagen_post.url }} alt="imagen">
-        <li>Posteo creado por {{ resultado.usuario_posteo }}</li>
         <br>
-        <h3>---------------------------------------------</h3>
+        <blink>Creado por <em>{{resultado.usuario_posteo}}</em></blink>    
+        <br>
+        <small><i>Última edición {{resultado.fecha_posteo_imagen}}</i></small>
+        <br>
+        <hr width=40%>
+
+    
     {% endfor %}
 </ul>
 
@@ -50,5 +57,6 @@
 <p> No se encuentran resultados </p>
 {% endif %}
 
-{{ mensaje }}
+{{ mensaje }}    
+</center>
 {% endblock %}

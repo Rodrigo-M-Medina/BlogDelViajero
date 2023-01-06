@@ -37,11 +37,15 @@
     <br>
     <h1 style="color: #ffc800"><strong>{{ paginaposteo.titulo_posteo }}</strong></h1>
     <h3><b>{{ paginaposteo.subtitulo_posteo}}</b></h3>
-    <p>{{ paginaposteo.contenido_posteo | safe}} </p>
-    <p>Creado por <em>{{ paginaposteo.usuario_posteo }}</em></p>
-    <small><i>Última edición el {{ paginaposteo.fecha_posteo_imagen }} </i></small>
+    <h3><b>{{ paginaposteo.subtitulo2_posteo}}</b></h3>   
+
+    <p>{{ paginaposteo.contenido_posteo | safe}} </p> 
     <br>
     <img height="250px" src={{ paginaposteo.imagen_post.url |safe }} alt="">
+    <br>
+    <br>
+    <p>Creado por <em>{{ paginaposteo.usuario_posteo }}</em></p>
+    <small><i>Última edición el {{ paginaposteo.fecha_posteo_imagen }} </i></small>
     <br>
     <br>
     {% if user.is_superuser or user.is_usuario_posteo %}
@@ -58,4 +62,7 @@
 
 
 {{ mensaje }}
+{% endblock %}
+
+{% block portfolio %}
 {% endblock %}

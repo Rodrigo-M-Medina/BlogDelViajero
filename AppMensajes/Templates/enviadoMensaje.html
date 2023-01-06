@@ -18,7 +18,7 @@
 
 
 {% block titulo %}
-
+<h1 style="color:black">MENSAJERÍA</h1>
 {% endblock %}
 
 {% block contenido %} 
@@ -32,6 +32,7 @@
             <a class="btn btn-primary text-uppercase" href="{% url 'chat' %}">Enviar mensaje</a> 
             <a class="btn btn-primary text-uppercase" href="{% url 'leerMensaje' %}">Mensajes recibidos</a>
             <a class="btn btn-primary text-uppercase" href="{% url 'enviadoMensaje' %}">Mensajes enviados</a>
+            <br>
             <table id="tmsj">
                 <tr>
                     <th id="msjT">Para:       </th>
@@ -39,6 +40,7 @@
                     <th id="msjT">hora        </th>
                     <th id="msjT">leido       </th>
                 </tr>
+                <br>
                 {% for casilla in mensajes %}
                 <tr>
                     <td id="msj">{{ casilla.entrada }}</td>
@@ -55,6 +57,9 @@
 </div>    
 </center>
 
+{% endblock %}
+
+{% block portfolio %}
 {% endblock %}
 
 

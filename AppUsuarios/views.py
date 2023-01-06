@@ -15,23 +15,29 @@ from AppUsuarios.models import Posteo, ImagenPerfil
 
 
 
-#-------------------------------- PAGINA DE INICIO -------------------------------------------------------
-
+#--------------------------------------- PAGINA DE INICIO ---------------------------------------------
 def paginaInicio(request):
     return render(request, "Inicio.html")
 
 
-#-------------------------------------- PORTAL/home ----------------------------------------
 
+#--------------------------------------- PORTAL/home ----------------------------------------------
 @login_required
 def portal(request):
     return render(request, "Portal.html", {"imagen":mostrarImagen(request)})
 
 
-#-------------------------------------------- USUARIOS ----------------------------------------
+
+#--------------------------------------- ABOUT US --------------------------------------
+@login_required
+def sobreNosotros(request):
+     return render(request, "SobreNosotros.html",{"imagen":mostrarImagen(request)})
+
+
+
+#---------------------------------------------------- USUARIOS -----------------------------------------------
 
 #---------- Registro usuario ------------------
-
 def registroUsuario(request):
     if request.method=="POST":
         form=FormUsuario(request.POST)
@@ -43,11 +49,6 @@ def registroUsuario(request):
         form = FormUsuario()
     return render(request, 'RegistroUsuario.html',{"form":form})
 
-
-
-
-
-
 #---------- Ver usuarios ------------------
 @login_required
 def verUsuarios(request):
@@ -57,7 +58,6 @@ def verUsuarios(request):
     
 
 #----------- Inicio de sesion usuarios --------------
-
 def ingresoUsuario(request):
     if request.method == "POST":
         form=AuthenticationForm(request, data = request.POST)
@@ -78,9 +78,34 @@ def ingresoUsuario(request):
     
     return render (request, "IngresoUsuario.html",{"form":form})
 
+#-------------- Editar usuario ----------------
+def editarUsuario(request,id):
+
+    usuario = User.objects.get(id=id)
+    
+    if request.method=="POST":
+        form=FormUsuario(request.POST)
+
+        if form.is_valid():
+            username=form.cleaned_data["username"]
+            
+            form.save()
+            return render(request, "Perfil.html")
+    else:
+        form = FormUsuario(initial = {"nombre":usuario.username,"email":usuario.email})
+    return render(request, 'EditarUsuario.html',{"form":form,"imagen":mostrarImagen(request)})
 
 
-#-------  FUNCION PARA AGREGAR IMAGEN ---------
+#--------------------------- PERFIL/ Ver Usuario -------------------------------
+@login_required
+def perfil(request,id):
+
+    perfil = User.objects.get(id=id)
+
+    return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "perfil":perfil})
+
+
+#-------  FUNCION PARA AGREGAR AVATAR ---------
 @login_required
 def fotoPerfil(request):
     if request.method=="POST":
@@ -111,8 +136,6 @@ def mostrarImagen(request):
 
 
 
-
-
 #------------------------------------------ POSTEOS ------------------------------------------------------------
 
 #-----------------  Agregar Posteo -------------------
@@ -127,11 +150,12 @@ def agregarPosteo(request):
 
             titulo_posteo=datos["titulo_posteo"]
             subtitulo_posteo=datos["subtitulo_posteo"]
+            subtitulo2_posteo=datos["subtitulo2_posteo"]
             contenido_posteo=datos["contenido_posteo"]
             imagen_post=datos["imagen_post"]
             fecha_posteo_imagen_forms= datetime.now()
                       
-            posteo1=Posteo( titulo_posteo=titulo_posteo,subtitulo_posteo=subtitulo_posteo,contenido_posteo=contenido_posteo, imagen_post=imagen_post, fecha_posteo_imagen=fecha_posteo_imagen_forms  ,usuario_posteo=request.user) 
+            posteo1=Posteo( titulo_posteo=titulo_posteo,subtitulo_posteo=subtitulo_posteo,subtitulo2_posteo=subtitulo2_posteo,contenido_posteo=contenido_posteo, imagen_post=imagen_post, fecha_posteo_imagen=fecha_posteo_imagen_forms  ,usuario_posteo=request.user) 
             posteo1.save()
 
             return render(request, "Portal.html",{"imagen":mostrarImagen(request)})
@@ -161,7 +185,7 @@ def editarPosteo(request,id):
     posteo=Posteo.objects.get(id=id)
 
     if request.method == "POST":
-        formularioposteo = PosteoForm(request.POST, request.FILES, initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
+        formularioposteo = PosteoForm(request.POST, request.FILES, initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"subtitulo2_posteo":posteo.subtitulo2_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
 
         if formularioposteo.is_valid():
 
@@ -171,66 +195,34 @@ def editarPosteo(request,id):
             posteo.imagen_post = datos["imagen_post"]
             posteo.titulo_posteo = datos["titulo_posteo"]
             posteo.subtitulo_posteo = datos["subtitulo_posteo"]
+            subtitulo2_posteo= datos ["subtitulo2_posteo"]
             posteo.contenido_posteo = datos["contenido_posteo"]
             posteo.fecha_posteo_imagen = datetime.now()
 
             posteo.save()
 
-            return render(request,"VerPosteos.html", {"mensaje":"Posteo editado correctamente","imagen":mostrarImagen(request)}) #Cambiar redireccionamiento
+            return render(request,"VerPosteos.html", {"mensaje":"Posteo editado correctamente","imagen":mostrarImagen(request)}) 
         else: 
             print(formularioposteo.errors.as_data())
-            formularioposteo = PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
+            formularioposteo = PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"subtitulo2_posteo":posteo.subtitulo2_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
             return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo", "formularioposteo":formularioposteo,"imagen":mostrarImagen(request)}) 
     else:
-        formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
+        formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"subtitulo2_posteo":posteo.subtitulo2_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
 
     return render(request,"EditarPosteo.html", {"formularioposteo":formularioposteo,"posteo":posteo,"imagen":mostrarImagen(request)})
 
-
-def editarUsuario(request,id):
-
-    usuario = User.objects.get(id=id)
-    
-    if request.method=="POST":
-        form=FormUsuario(request.POST)
-
-        if form.is_valid():
-            username=form.cleaned_data["username"]
-            
-            form.save()
-            return render(request, "Perfil.html")
-    else:
-        form = FormUsuario(initial = {"nombre":usuario.username,"email":usuario.email})
-    return render(request, 'EditarUsuario.html',{"form":form,"imagen":mostrarImagen(request)})
 
 #---------------- Eliminar posteo ----------------
 @login_required
 def eliminarPosteo(request, id):
     
-        posteo = Posteo.objects.get(id = id) #Evitar que se rompa al volver atras. Que no tariga mas un id
+        posteo = Posteo.objects.get(id = id) 
         posteo.delete()
         posteo = Posteo.objects.all()
  
         posteo = {"posteos": posteo}
  
         return render(request, "Portal.html",{"posteos": posteo,"imagen":mostrarImagen(request)})
-
-
-
-#--------------------------- PERFIL -------------------------------
-@login_required
-def perfil(request,id):
-
-    perfil = User.objects.get(id=id)
-
-    return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "perfil":perfil})
-
-
-#---------------------------- ABOUT US --------------------------------
-@login_required
-def sobreNosotros(request):
-     return render(request, "SobreNosotros.html",{"imagen":mostrarImagen(request)})
-
 
 #-------------------------- BUSCAR POSTEO ---------------------------------
 @login_required
@@ -243,11 +235,14 @@ def buscar(request):
         return render(request, "VerPosteos.html")
 
 
+#-----------------------PAGINA POSTEO -----------------------------------------
+@login_required
 def paginaPosteo(request,id):
 
     paginaposteo = Posteo.objects.get(id=id)
 
     return render(request, "PaginaPosteo.html",{"imagen":mostrarImagen(request), "paginaposteo":paginaposteo})
+
 
 
 

@@ -11,11 +11,12 @@
 {% endblock %}
 
 {% block titulo %}
+ <h1 style="color:black">Editar posteo {{ posteo }}</h1>
 {% endblock %}
 
 {% block contenido %} 
+<center>
 
-<h1>Editar posteo {{ posteo }}</h1>
 <br>
 <form action="{% url 'editarposteo' posteo.id %}" method="POST" enctype="multipart/form-data">
 
@@ -26,13 +27,20 @@
     
 
     
-    <input class="btn btn-primary btn-xl text-uppercase" type="submit" value="Editar Posteo">
+    <input class="btn btn-primary btn-m text-uppercase" type="submit" value="Editar Posteo">
     
 
 
 </form>
-<br>
+<br>   
+</center>
+
+
 
 
 {{ mensaje }}
 {% endblock %}
+
+{% block portfolio %}
+{% endblock %}
+

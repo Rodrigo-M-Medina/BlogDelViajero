@@ -51,9 +51,11 @@ def registroUsuario(request):
 #---------- Ver usuarios ------------------
 @login_required
 def verUsuarios(request):
-    usuarios = User.objects.all()
-    
-    return render(request, 'VerUsuarios.html', {"usuarios": usuarios,"imagen":mostrarImagen(request)}) 
+    if request.user.is_superuser:
+        usuarios = User.objects.all()
+        return render(request, 'VerUsuarios.html', {"usuarios": usuarios,"imagen":mostrarImagen(request)}) 
+    else:
+     return redirect("portal")
     
 
 #----------- Inicio de sesion usuarios --------------
@@ -171,7 +173,6 @@ def agregarPosteo(request):
 def verPosteo(request):
 
     posteos = Posteo.objects.all()
-    datos= {"posteos":posteos}
 
     return render(request,"VerPosteos.html",{"posteos":posteos,"imagen":mostrarImagen(request)})
 
@@ -181,33 +182,37 @@ def verPosteo(request):
 def editarPosteo(request,id):
 
     posteo=Posteo.objects.get(id=id)
-
-    if request.method == "POST":
-        formularioposteo = PosteoForm(request.POST, request.FILES, initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"subtitulo2_posteo":posteo.subtitulo2_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
-
-        if formularioposteo.is_valid():
-
-            datos = formularioposteo.cleaned_data
-
-                    
-            posteo.imagen_post = datos["imagen_post"]
-            posteo.titulo_posteo = datos["titulo_posteo"]
-            posteo.subtitulo_posteo = datos["subtitulo_posteo"]
-            posteo.subtitulo2_posteo= datos ["subtitulo2_posteo"]
-            posteo.contenido_posteo = datos["contenido_posteo"]
-            posteo.fecha_posteo_imagen = datetime.now()
-
-            posteo.save()
-
-            return render(request,"VerPosteos.html", {"mensaje":"Posteo editado correctamente","imagen":mostrarImagen(request)}) 
-        else: 
-            print(formularioposteo.errors.as_data())
-            formularioposteo = PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"subtitulo2_posteo":posteo.subtitulo2_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
-            return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo", "formularioposteo":formularioposteo,"imagen":mostrarImagen(request)}) 
+    
+    if not (request.user.is_superuser or request.user == posteo.usuario_posteo):
+        # si el usuario no es el superuser o el usuario que creo el posteo te redirige a ver posteos
+        return render(request,"VerPosteos.html", {"mensaje":"No estas autorizado para editar el posteo","imagen":mostrarImagen(request)}) 
     else:
-        formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"subtitulo2_posteo":posteo.subtitulo2_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
+        if request.method == "POST":
+            formularioposteo = PosteoForm(request.POST, request.FILES, initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"subtitulo2_posteo":posteo.subtitulo2_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
 
-    return render(request,"EditarPosteo.html", {"formularioposteo":formularioposteo,"posteo":posteo,"imagen":mostrarImagen(request)})
+            if formularioposteo.is_valid():
+
+                datos = formularioposteo.cleaned_data
+                   
+                posteo.imagen_post = datos["imagen_post"]
+                posteo.titulo_posteo = datos["titulo_posteo"]
+                posteo.subtitulo_posteo = datos["subtitulo_posteo"]
+                posteo.subtitulo2_posteo= datos ["subtitulo2_posteo"]
+                posteo.contenido_posteo = datos["contenido_posteo"]
+                posteo.fecha_posteo_imagen = datetime.now()
+
+                posteo.save()
+
+                return render(request,"VerPosteos.html", {"mensaje":"Posteo editado correctamente","imagen":mostrarImagen(request)}) 
+            else: 
+                print(formularioposteo.errors.as_data())
+                formularioposteo = PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"subtitulo2_posteo":posteo.subtitulo2_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
+                return render(request,"VerPosteos.html", {"mensaje":"Error en validacion de posteo", "formularioposteo":formularioposteo,"imagen":mostrarImagen(request)}) 
+        else:
+            formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"subtitulo2_posteo":posteo.subtitulo2_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
+
+            return render(request,"EditarPosteo.html", {"formularioposteo":formularioposteo,"posteo":posteo,"imagen":mostrarImagen(request)})
+        
 
 
 #---------------- Eliminar posteo ----------------
@@ -235,12 +240,19 @@ def sobreNosotros(request):
 #-------------------------- BUSCAR POSTEO ---------------------------------
 @login_required
 def buscar(request):
-    if "titulo_posteo" in (request.GET):
-        var1=request.GET ["titulo_posteo"]
-        resultado=Posteo.objects.filter(titulo_posteo__icontains=var1)
-        return render(request,"ResultadoBusqueda.html", {"resultado":resultado,"imagen":mostrarImagen(request)})
+    buscar_por = request.GET.get("buscar_por")
+    var1=request.GET ["titulo_posteo"]
+    
+    if buscar_por == "titulo_posteo":
+        resultado = Posteo.objects.filter(titulo_posteo__icontains=var1)
+    elif buscar_por == "subtitulo_posteo":
+        resultado = Posteo.objects.filter(subtitulo_posteo__icontains=var1)
+    elif buscar_por == "subtitulo2_posteo":
+        resultado = Posteo.objects.filter(subtitulo2_posteo__icontains=var1)
     else:
-        return render(request, "VerPosteos.html")
+        resultado = None
+        return redirect("verposteo")
+    return render(request,"ResultadoBusqueda.html", {"resultado":resultado,"imagen":mostrarImagen(request)})
 
 
 #-----------------------PAGINA POSTEO -----------------------------------------

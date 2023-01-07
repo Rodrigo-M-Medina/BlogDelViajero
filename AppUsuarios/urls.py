@@ -22,9 +22,7 @@ urlpatterns = [
     path("buscarposteo", buscar, name="buscarposteo"),
     path("editarusuario/", editarUsuario, name="editarusuario"),
     path("paginaposteo/<id>", paginaPosteo, name="paginaposteo"),
-    path("agregarbiografia", agregarBiografia, name="agregarbiografia"),
-    path("verbiografia/<id>",verBiografia,name="verbiografia"),
-   
+    path("agregarbiografia", agregarBiografia, name="agregarbiografia"), 
 ]
 
 

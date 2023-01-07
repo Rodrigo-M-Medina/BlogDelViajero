@@ -43,16 +43,12 @@
     <img height="200px" src={{ imagen | safe }} alt="">
     <br> 
     <br> 
-    <hr width="45%">
+    <p>{{ biografia }}</p>
+    <hr width="30%">
     <a class="btn btn-primary btn-s text-uppercase" href={% url 'fotoPerfil' %}>Cambiar Foto Perfil</a>
     <a class="btn btn-primary btn-s text-uppercase" href={% url 'editarusuario' %}>Editar Usuario</a>
     <a class="btn btn-primary btn-s text-uppercase" href={% url 'agregarbiografia' %}>Agregar Biografia</a>
-
-   {{ biografia.bio }}
   
-
-    
-    
 
 </center>
 

@@ -1,9 +1,9 @@
 {% extends "PadreHome.html" %}
 
 {% block avatar %}
-<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="100px" src="" alt="">{{user}}</a>
+<a class="navbar-brand" href={% url 'perfil' %}><img height="100px" src="" alt="">{{user}}</a>
 <br>
-<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="100px" src="{{ imagen }}" alt=""></a>
+<a class="navbar-brand" href={% url 'perfil' %}><img height="100px" src="{{ imagen }}" alt=""></a>
 {% endblock %}
 
 <!--- NAVBAR -->
@@ -43,19 +43,15 @@
     <img height="200px" src={{ imagen | safe }} alt="">
     <br>
     <br>
+    <p>{{ biografia }}</p>
     <hr width="45%">
-    
-    <form action="{% url 'agregarbiografia' %}" method="POST" enctype="multipart/form-data"> 
 
+    <h2>{% if biografia %}Edita tu{% else %}Crea tu {% endif %} biografia</h2>
+    <form id="bio" method="post" action="{% url 'agregarbiografia' %}">
         {% csrf_token %}
-        
-        {{ form.as_p|safe }}
-    
-        
-        <input class="btn btn-primary btn-l text-uppercase" type="submit" value="Agregar Biografia">
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary btn-l text-uppercase">Guardar</button>
     </form>
-
-
 </center>
 
 {% endblock %}

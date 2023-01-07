@@ -101,8 +101,9 @@ def editarUsuario(request):
 def perfil(request):
 
     perfil = request.user
+    biografia = Biografia.objects.get(usuarioBio=request.user)
 
-    return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "perfil":perfil})
+    return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "perfil":perfil, "biografia":biografia})
 
 
 #-------  FUNCION PARA AGREGAR AVATAR ---------
@@ -139,27 +140,6 @@ def mostrarImagen(request):
 #------------------------------------------ POSTEOS ------------------------------------------------------------
 
 #-----------------  Agregar Posteo -------------------
-@login_required
-def agregarBiografia(request):
-    if request.method == "POST":
-        form = BiografiaForm(request.POST)
-        if form.is_valid():
-            datos=form.cleaned_data
-            bio=datos["bio"]
-            biografia=Biografia(bio=bio,usuario=request.user)
-            biografia.save()
-
-            return render(request,"Perfil.html",{"imagen":mostrarImagen(request)})
-        else:
-            return render(request,"AgregarBiografia.html",{"mensaje":"Biografia inválida","form":form,"imagen":mostrarImagen(request)})
-    else:
-        formulario=BiografiaForm()
-
-    return render(request,"AgregarBiografia.html",{"form":formulario,"imagen":mostrarImagen(request)})
-
-
-
-
 @login_required
 def agregarPosteo(request):
 
@@ -285,12 +265,31 @@ def paginaPosteo(request,id):
 
     return render(request, "PaginaPosteo.html",{"imagen":mostrarImagen(request), "paginaposteo":paginaposteo})
  
-
 @login_required
-def verBiografia(request,id):
+def agregarBiografia(request):
+    # Retrieve the user's Biography instance, if it exists
+    try:
+        biografia = Biografia.objects.get(usuarioBio=request.user)
+    except Biografia.DoesNotExist:
+        biografia = None
 
-    biografia = Biografia.objects.get(id=id)
-    
-    return render(request,"Perfil.html",{"biografia":biografia, "imagen":mostrarImagen(request)})
+    if request.method == 'POST':
+        # Handle form submission
+        form = BiografiaForm(request.POST)
+        if form.is_valid():
+            # Save the form data to the database
+            bio = form.cleaned_data['bio']
+            if biografia:
+                # Update the existing Biography instance
+                biografia.bio = bio
+                biografia.save()
+            else:
+                # Create a new Biography instance
+                Biografia.objects.create(usuarioBio=request.user, bio=bio)
 
-
+            # Redirect to the profile page
+            return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "biografia":biografia})
+    else:
+        # Render the form template
+        form = BiografiaForm(initial={'bio': biografia.bio} if biografia else {})
+    return render(request, "AgregarBiografia.html", {'form': form,"imagen":mostrarImagen(request)} )

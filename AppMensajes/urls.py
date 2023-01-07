@@ -13,3 +13,4 @@ urlpatterns = [
     path("enviadoMensaje", enviadoMensaje , name = "enviadoMensaje"),
     path('borrarmsj/', borrarMensaje, name='borrarMensaje'),
 ]
+

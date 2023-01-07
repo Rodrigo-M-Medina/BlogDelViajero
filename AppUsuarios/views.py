@@ -14,6 +14,15 @@ from AppUsuarios.models import Posteo, ImagenPerfil, Biografia
 
 
 
+def custom_404(request, exception):
+    return render(request, '404.html', {}, status=404)
+
+def custom_500(request):
+    return render(request, '500.html', {}, status=500)
+
+
+
+
 #--------------------------------------- PAGINA DE INICIO ---------------------------------------------
 def paginaInicio(request):
     return render(request, "Inicio.html")
@@ -78,6 +87,7 @@ def ingresoUsuario(request):
         form=AuthenticationForm()
     
     return render (request, "IngresoUsuario.html",{"form":form})
+
 
 #-------------- Editar usuario ----------------
 def editarUsuario(request):

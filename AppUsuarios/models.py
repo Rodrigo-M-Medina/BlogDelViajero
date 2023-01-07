@@ -25,6 +25,13 @@ class ImagenPerfil(models.Model):
     imagen=models.ImageField(upload_to='Perfil')
     user=models.ForeignKey(User, on_delete=models.CASCADE)
 
+class Biografia(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    bio = models.TextField()
+
+    def __str__(self):
+        return self.bio
+
 
  
 

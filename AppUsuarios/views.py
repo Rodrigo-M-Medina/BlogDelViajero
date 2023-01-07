@@ -7,9 +7,9 @@ from django.contrib.auth.models import User
 
 from datetime import datetime
 #--------------- imports de forms creados en forms.py -----------
-from AppUsuarios.forms import FormUsuario, PosteoForm, ImagenPerfilForm
+from AppUsuarios.forms import FormUsuario, PosteoForm, ImagenPerfilForm, BiografiaForm
 #--------------- imports models creados en models.py ----------
-from AppUsuarios.models import Posteo, ImagenPerfil
+from AppUsuarios.models import Posteo, ImagenPerfil, Biografia
 #--------------- imports de forms existentes en django ------------
 
 
@@ -140,6 +140,27 @@ def mostrarImagen(request):
 
 #-----------------  Agregar Posteo -------------------
 @login_required
+def agregarBiografia(request):
+    if request.method == "POST":
+        form = BiografiaForm(request.POST)
+        if form.is_valid():
+            datos=form.cleaned_data
+            bio=datos["bio"]
+            biografia=Biografia(bio=bio,usuario=request.user)
+            biografia.save()
+
+            return render(request,"Perfil.html",{"imagen":mostrarImagen(request)})
+        else:
+            return render(request,"AgregarBiografia.html",{"mensaje":"Biografia inválida","form":form,"imagen":mostrarImagen(request)})
+    else:
+        formulario=BiografiaForm()
+
+    return render(request,"AgregarBiografia.html",{"form":formulario,"imagen":mostrarImagen(request)})
+
+
+
+
+@login_required
 def agregarPosteo(request):
 
     if request.method == "POST":
@@ -169,6 +190,7 @@ def agregarPosteo(request):
 
 
 #------------------- Ver Posteo -------------------
+
 @login_required
 def verPosteo(request):
 
@@ -262,7 +284,13 @@ def paginaPosteo(request,id):
     paginaposteo = Posteo.objects.get(id=id)
 
     return render(request, "PaginaPosteo.html",{"imagen":mostrarImagen(request), "paginaposteo":paginaposteo})
+ 
 
+@login_required
+def verBiografia(request,id):
 
+    biografia = Biografia.objects.get(id=id)
+    
+    return render(request,"Perfil.html",{"biografia":biografia, "imagen":mostrarImagen(request)})
 
 

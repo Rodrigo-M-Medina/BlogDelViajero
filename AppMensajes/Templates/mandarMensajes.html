@@ -1,9 +1,9 @@
 {% extends "PadreHome.html" %}
 
 {% block avatar %}
-<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="200px" src="" alt="">{{user}}</a>
+<a class="navbar-brand" href={% url 'perfil' %}><img height="200px" src="" alt="">{{user}}</a>
 <br>
-<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="600px" src="{{ imagen }}" alt=""></a>
+<a class="navbar-brand" href={% url 'perfil' %}><img height="600px" src="{{ imagen }}" alt=""></a>
 {% endblock %}
 
 {% block nav %}

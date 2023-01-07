@@ -9,7 +9,6 @@ from ckeditor.widgets import CKEditorWidget
 
 #------------- Formulario de registro usuario --------------
 class FormUsuario(UserCreationForm):
-    nombre = forms.CharField(max_length=50)
     email = forms.EmailField()
     password1 = forms.CharField(label="Ingrese Contraseña", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Repita Contraseña", widget=forms.PasswordInput)

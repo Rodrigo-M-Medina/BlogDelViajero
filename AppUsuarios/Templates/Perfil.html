@@ -1,9 +1,9 @@
 {% extends "PadreHome.html" %}
 
 {% block avatar %}
-<a class="navbar-brand" href={% url 'perfil' %}><img height="100px" src="" alt="">{{user}}</a>
+<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="100px" src="" alt="">{{user}}</a>
 <br>
-<a class="navbar-brand" href={% url 'perfil' %}><img height="100px" src="{{ imagen }}" alt=""></a>
+<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="100px" src="{{ imagen }}" alt=""></a>
 {% endblock %}
 
 <!--- NAVBAR -->
@@ -45,7 +45,7 @@
     <br>
     <hr width="45%">
     <a class="btn btn-primary btn-s text-uppercase" href={% url 'fotoPerfil' %}>Cambiar Foto Perfil</a>
-    <a class="btn btn-primary btn-s text-uppercase" href={% url 'editarusuario'  %}>Editar Usuario</a>
+    <a class="btn btn-primary btn-s text-uppercase" href={% url 'editarusuario' user.id %}>Editar Usuario</a>
 </center>
 
 {% endblock %}

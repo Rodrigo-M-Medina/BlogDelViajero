@@ -1,9 +1,9 @@
 {% extends "PadreHome.html" %}
 
 {% block avatar %}
-<a class="navbar-brand" href={% url 'perfil' %}><img height="200px" src="" alt="">{{user}}</a>
+<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="200px" src="" alt="">{{user}}</a>
 <br>
-<a class="navbar-brand" href={% url 'perfil' %}><img height="600px" src="{{ imagen }}" alt=""></a>
+<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="600px" src="{{ imagen }}" alt=""></a>
 {% endblock %}
 
 {% block nav %}
@@ -27,7 +27,7 @@
     <h2>Click para editar</h2>
     
     {% for user in usuarios %} {% csrf_token %}
-    <h3><a class="box"  href="{% url 'editarusuario' %}"><b>{{ user.username }}</b></a></h3>
+    <h3><a class="box"  href="{% url 'editarusuario' user.id %}"><b>{{ user.username }}</b></a></h3>
     
    
     {% endfor %}

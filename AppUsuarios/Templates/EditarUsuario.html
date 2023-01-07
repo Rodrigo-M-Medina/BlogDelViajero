@@ -1,9 +1,9 @@
 {% extends "PadreHome.html" %}
 
 {% block avatar %}
-<a class="navbar-brand" href={% url 'perfil' %}><img height="200px" src="" alt="">{{user}}</a>
+<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="200px" src="" alt="">{{user}}</a>
 <br>
-<a class="navbar-brand" href={% url 'perfil' %}><img height="600px" src="{{ imagen }}" alt=""></a>
+<a class="navbar-brand" href={% url 'perfil' user.id %}><img height="600px" src="{{ imagen }}" alt=""></a>
 {% endblock %}
 
 {% block nav %}
@@ -24,21 +24,21 @@
 {% block contenido %} 
 <center>
 <body>
-    <br> 
-    {% if user.is_authenticated or user.is_superuser %}   
-    <form method="post" action="{% url 'editarusuario' %}"> {% csrf_token %}
+    <br>    
+    <form action="{% url 'editarusuario' user.id %}" method="POST"> {% csrf_token %}
         <table>
-
             {{ form.as_table }}
 
         </table>
         <br>
         <input class="btn btn-primary btn-s text-uppercase" type="submit" value="Editar Usuario">
     </form>
-    {% else %}
-            No tenes permisos para editar este usuario
-    {% endif %}
     <br>
 </body>   
 </center>
+
+
+{% endblock %}
+
+{% block portfolio %}
 {% endblock %}

@@ -14,6 +14,7 @@ from AppUsuarios.models import Posteo, ImagenPerfil
 
 
 
+
 #--------------------------------------- PAGINA DE INICIO ---------------------------------------------
 def paginaInicio(request):
     return render(request, "Inicio.html")
@@ -78,27 +79,28 @@ def ingresoUsuario(request):
     return render (request, "IngresoUsuario.html",{"form":form})
 
 #-------------- Editar usuario ----------------
-def editarUsuario(request):
-    if request.user.is_authenticated or request.user.is_superuser:
-        usuario = request.user
+def editarUsuario(request,id):
+
+    usuario = User.objects.get(id=id)
+    
+    if request.method=="POST":
         form=FormUsuario(request.POST)
+
         if form.is_valid():
+            username=form.cleaned_data["username"]
+            
             form.save()
             return render(request, "Perfil.html")
-
-        else:
-            form = FormUsuario(initial = {"nombre":usuario.username,"email":usuario.email})
-            return render(request, 'EditarUsuario.html',{"form":form,"imagen":mostrarImagen(request)})
-    return render(request, "Perfil.html", {"imagen":mostrarImagen(request)})
-
-
+    else:
+        form = FormUsuario(initial = {"nombre":usuario.username,"email":usuario.email})
+    return render(request, 'EditarUsuario.html',{"form":form,"imagen":mostrarImagen(request)})
 
 
 #--------------------------- PERFIL/ Ver Usuario -------------------------------
 @login_required
-def perfil(request):
+def perfil(request,id):
 
-    perfil = request.user
+    perfil = User.objects.get(id=id)
 
     return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "perfil":perfil})
 
@@ -193,7 +195,7 @@ def editarPosteo(request,id):
             posteo.imagen_post = datos["imagen_post"]
             posteo.titulo_posteo = datos["titulo_posteo"]
             posteo.subtitulo_posteo = datos["subtitulo_posteo"]
-            posteo.subtitulo2_posteo= datos ["subtitulo2_posteo"]
+            subtitulo2_posteo= datos ["subtitulo2_posteo"]
             posteo.contenido_posteo = datos["contenido_posteo"]
             posteo.fecha_posteo_imagen = datetime.now()
 
@@ -225,6 +227,13 @@ def eliminarPosteo(request):
 
 
 #--------------------------- PERFIL -------------------------------
+@login_required
+def perfil(request,id):
+
+    perfil = User.objects.get(id=id)
+
+    return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "perfil":perfil})
+
 
 #---------------------------- ABOUT US --------------------------------
 @login_required

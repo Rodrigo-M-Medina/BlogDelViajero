@@ -51,3 +51,9 @@ class PosteoForm(forms.Form):
         model = Posteo
         fields = ["titulo_posteo", "subtitulo_posteo","subtitulo2_posteo","contenido_posteo", "imagen_post"]
 
+class BiografiaForm(forms.Form):
+    bio = forms.CharField(widget=forms.Textarea)
+
+    class Meta:
+        model = Biografia
+        fields = ["bio"]

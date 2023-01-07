@@ -41,18 +41,20 @@
     <h3>Email del viajero: {{ perfil.email }}</h3>
     <br>
     <img height="200px" src={{ imagen | safe }} alt="">
-    <br> 
-    <br> 
+    <br>
+    <br>
     <hr width="45%">
-    <a class="btn btn-primary btn-s text-uppercase" href={% url 'fotoPerfil' %}>Cambiar Foto Perfil</a>
-    <a class="btn btn-primary btn-s text-uppercase" href={% url 'editarusuario' user.id %}>Editar Usuario</a>
-    <a class="btn btn-primary btn-s text-uppercase" href={% url 'agregarbiografia' %}>Agregar Biografia</a>
-
-   {{ biografia.bio }}
-  
-
     
+    <form action="{% url 'agregarbiografia' %}" method="POST" enctype="multipart/form-data"> 
+
+        {% csrf_token %}
+        
+        {{ form.as_p|safe }}
     
+        
+        <input class="btn btn-primary btn-l text-uppercase" type="submit" value="Agregar Biografia">
+    </form>
+
 
 </center>
 

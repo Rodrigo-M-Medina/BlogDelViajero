@@ -52,4 +52,4 @@ class PosteoForm(forms.Form):
 
 
 class BiografiaForm(forms.Form):
-   bio = forms.CharField(widget=forms.Textarea(attrs={'id': 'bio-id'}))#por lo que me dice google con esto le puedo dar un id al form y editarlo en css
+   bio = forms.CharField (label="Biografia" ,widget=forms.Textarea(attrs={'id': 'bio-id'}))#por lo que me dice google con esto le puedo dar un id al form y editarlo en css

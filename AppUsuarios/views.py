@@ -13,7 +13,7 @@ from AppUsuarios.models import Posteo, ImagenPerfil, Biografia
 #--------------- imports de forms existentes en django ------------
 
 
-
+#-------- Funciones para las paginas de error ----------------
 def custom_404(request, exception):
     return render(request, '404.html', {}, status=404)
 
@@ -23,7 +23,7 @@ def custom_500(request):
 
 
 
-#--------------------------------------- PAGINA DE INICIO ---------------------------------------------
+#--------------------------------------- PAGINAS DE INICIO ---------------------------------------------
 def paginaInicio(request):
     return render(request, "Inicio.html")
 
@@ -277,29 +277,31 @@ def paginaPosteo(request,id):
  
 @login_required
 def agregarBiografia(request):
-    # Retrieve the user's Biography instance, if it exists
+
+    perfil = request.user
+    
     try:
         biografia = Biografia.objects.get(usuarioBio=request.user)
     except Biografia.DoesNotExist:
         biografia = None
 
     if request.method == 'POST':
-        # Handle form submission
+        
         form = BiografiaForm(request.POST)
         if form.is_valid():
-            # Save the form data to the database
+            
             bio = form.cleaned_data['bio']
             if biografia:
-                # Update the existing Biography instance
+                
                 biografia.bio = bio
                 biografia.save()
             else:
-                # Create a new Biography instance
+                
                 Biografia.objects.create(usuarioBio=request.user, bio=bio)
 
-            # Redirect to the profile page
-            return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "biografia":biografia})
+            
+            return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "biografia":biografia, "perfil":perfil})
     else:
-        # Render the form template
+        
         form = BiografiaForm(initial={'bio': biografia.bio} if biografia else {})
-    return render(request, "AgregarBiografia.html", {'form': form,"imagen":mostrarImagen(request)} )
+    return render(request, "AgregarBiografia.html", {'form': form,"imagen":mostrarImagen(request), "perfil":perfil} )

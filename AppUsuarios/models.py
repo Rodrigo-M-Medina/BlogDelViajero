@@ -20,11 +20,13 @@ class Posteo(models.Model):
     def __str__(self):
         return self.titulo_posteo   
  
-
+#----------- Modelo para imagen de perfil
 class ImagenPerfil(models.Model):
     imagen=models.ImageField(upload_to='Perfil')
     user=models.ForeignKey(User, on_delete=models.CASCADE)
 
+
+#---------- Modelo para biografia ---------
 class Biografia(models.Model):
     usuarioBio = models.ForeignKey(User, on_delete=models.CASCADE)
     bio = models.CharField(max_length=800)

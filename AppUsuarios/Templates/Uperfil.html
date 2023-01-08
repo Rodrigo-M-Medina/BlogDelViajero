@@ -1,0 +1,12 @@
+
+
+
+Usuario: {{ data.username }}<br>
+Biografia: {{ data.bio }}<br>
+{% if data.imagen.url %}
+Imagen de Perfil:<img height="200px" src="{{ data.imagen.url }}"><br>
+{% else %}
+Imagen de Perfil:<img height="200px" src="BlogDelViajero\media\Perfil\homero.jpg"><br>
+{% endif %}
+
+

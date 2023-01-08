@@ -27,9 +27,7 @@
     <h2>Click para editar</h2>
     
     {% for user in usuarios %} {% csrf_token %}
-    <h3><a class="box"  href="{% url 'editarusuario' %}"><b>{{ user.username }}</b></a></h3>
-    
-   
+    <h3><a class="box"  href="{% url 'perfilusuario' username=user.username %}"><b>{{ user.username }}</b></a></h3>
     {% endfor %}
 
 </center>

@@ -1,1 +1,18 @@
-<h1>PROBANDO PAGINA DE ERROR 123412413</h1>
+{% extends "PadreHome.html" %}
+
+
+{% block titulo %}
+<h1>LA PAGINA FALLO CON EXITO </h1>
+{% endblock %}
+
+{% block contenido %} 
+{% if user.is_authenticated %}
+<a class="btn btn-primary btn-m text-uppercase" href="{% url 'portal' %}">Volver al portal</a>
+{% else %}
+<a class="btn btn-primary btn-m text-uppercase" href="{% url 'paginainicio' %}">Volver al inicio</a>
+{% endif %}
+{% endblock %}
+
+{% block portfolio %}
+{% endblock %}
+

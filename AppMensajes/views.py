@@ -9,14 +9,14 @@ from AppMensajes.models import *
 from AppUsuarios.views import mostrarImagen
 
 
-#----------------- MENSAJERIA -------------------------- INCOMPLETA
+#----------------- MENSAJERIA ------------------------------------------
+#------ mandar mensaje ------------ 
 @login_required
-def MandarMensajes(request):#por ahora solo puedo mandar mensajes desde un opcion de mensajes 
+def MandarMensajes(request): 
     if request.method == 'POST':
         form = MensajeForm(request.POST)
         if form.is_valid():
-            # Guardando mensaje en la base de datos
-            mensaje = form.save(commit=False)#commit false? se supone que es un booleano que me deja ver el mensaje antes de guardar
+            mensaje = form.save(commit=False)
             mensaje.salida = request.user
             mensaje.save()
             return render(request, 'mandarMensajes.html', {'form': form,"imagen":mostrarImagen(request)})
@@ -24,10 +24,13 @@ def MandarMensajes(request):#por ahora solo puedo mandar mensajes desde un opcio
         form = MensajeForm() 
     return render(request, 'mandarMensajes.html', {'form': form,"imagen":mostrarImagen(request)})
 
+#------------- ver opciones de mensajes ----------------
 @login_required
 def mensajeUsuarios(request):
     return render(request, 'mensajeUsuarios.html',{'users': User.objects.exclude(username=request.user.username),"imagen":mostrarImagen(request)})
 
+
+#------------- ver bandeja de mensajes y leerlos automaticamente ---------
 @login_required 
 def leerMensaje(request):
     usuario = request.user
@@ -37,12 +40,15 @@ def leerMensaje(request):
         mensaje.save()  
     return render(request, "leerMensaje.html", {"mensajes": msj,"imagen":mostrarImagen(request)})
 
+
+#-------------- ver mensajes enviados y su estado ------------------
 @login_required
 def enviadoMensaje(request):
     usuario = request.user
     msj= Chat.objects.filter(salida = usuario)
     return render(request, "enviadoMensaje.html", {"mensajes": msj,"imagen":mostrarImagen(request)})
 
+#------------- borrar mensajes creados -----------------
 @login_required
 def borrarMensaje(request):
     if request.method == 'POST':

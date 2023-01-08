@@ -4,7 +4,6 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
-
 from datetime import datetime
 #--------------- imports de forms creados en forms.py -----------
 from AppUsuarios.forms import FormUsuario, PosteoForm, ImagenPerfilForm, BiografiaForm
@@ -27,20 +26,15 @@ def custom_500(request):
 def paginaInicio(request):
     return render(request, "Inicio.html")
 
-
-
-#--------------------------------------- PORTAL/home ----------------------------------------------
 @login_required
 def portal(request):
     return render(request, "Portal.html", {"imagen":mostrarImagen(request)})
-
 
 
 #--------------------------------------- ABOUT US --------------------------------------
 @login_required
 def sobreNosotros(request):
      return render(request, "SobreNosotros.html",{"imagen":mostrarImagen(request)})
-
 
 
 #---------------------------------------------------- USUARIOS -----------------------------------------------
@@ -57,17 +51,7 @@ def registroUsuario(request):
         form = FormUsuario()
     return render(request, 'RegistroUsuario.html',{"form":form})
 
-#---------- Ver usuarios ------------------
-@login_required
-def verUsuarios(request):
-    if request.user.is_superuser:
-        usuarios = User.objects.all()
-        return render(request, 'VerUsuarios.html', {"usuarios": usuarios,"imagen":mostrarImagen(request)}) 
-    else:
-     return redirect("portal")
-    
-
-#----------- Inicio de sesion usuarios --------------
+#----------- Ingreso Usuario  --------------
 def ingresoUsuario(request):
     if request.method == "POST":
         form=AuthenticationForm(request, data = request.POST)
@@ -88,7 +72,6 @@ def ingresoUsuario(request):
     
     return render (request, "IngresoUsuario.html",{"form":form})
 
-
 #-------------- Editar usuario ----------------
 def editarUsuario(request):
     if request.user.is_authenticated or request.user.is_superuser:
@@ -104,19 +87,52 @@ def editarUsuario(request):
     return render(request, "Perfil.html", {"imagen":mostrarImagen(request)})
 
 
+#---------- Ver usuarios ------------------
+@login_required
+def verUsuarios(request):
+    if request.user.is_superuser:
+        usuarios = User.objects.all()
+        return render(request, 'VerUsuarios.html', {"usuarios": usuarios,"imagen":mostrarImagen(request)}) 
+    else:
+     return redirect("portal")
+    
+def data(request):
+    username = request
+    try:
+        user = User.objects.get(username=username)
+        try:
+            usuarioBio = Biografia.objects.get(usuarioBio=user).bio
+        except Biografia.DoesNotExist:
+            usuarioBio = "Sr. X"
+        imagen = mostrarImagen(request)
+        return {
+            'username': user.username,
+            'bio': usuarioBio,
+            'imagen': imagen,
+        }
+    except User.DoesNotExist:
+        return "No Hay datos que mostrar"
+
+def perfilUsuario(request, username):
+    datos = data(username)
+    return render(request, 'Uperfil.html', {'data': datos})
+     
 
 
-#--------------------------- PERFIL/ Ver Usuario -------------------------------
+#--------------------------- Perfil usuario -------------------------------
 @login_required
 def perfil(request):
 
     perfil = request.user
-    biografia = Biografia.objects.get(usuarioBio=request.user)
+    try:
+        biografia = Biografia.objects.get(usuarioBio=request.user)
+    except Biografia.DoesNotExist:
+        biografia = "Sr. X"
 
     return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "perfil":perfil, "biografia":biografia})
 
 
-#-------  FUNCION PARA AGREGAR AVATAR ---------
+#-------  Agregar imagen de perfil ---------
 @login_required
 def fotoPerfil(request):
     if request.method=="POST":
@@ -144,10 +160,43 @@ def mostrarImagen(request):
         imagen="/media/Perfil/homero.jpg"
     return imagen
 
+#----------- Biografia usuario ------------------------
+
+@login_required
+def agregarBiografia(request):
+
+    perfil = request.user
+    
+    try:
+        biografia = Biografia.objects.get(usuarioBio=request.user)
+    except Biografia.DoesNotExist:
+        biografia = None
+
+    if request.method == 'POST':
+        
+        form = BiografiaForm(request.POST)
+        if form.is_valid():
+            
+            bio = form.cleaned_data['bio']
+            if biografia:
+                
+                biografia.bio = bio
+                biografia.save()
+            else:
+                
+                Biografia.objects.create(usuarioBio=request.user, bio=bio)
+
+            
+            return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "biografia":biografia, "perfil":perfil})
+    else:
+        
+        form = BiografiaForm(initial={'bio': biografia.bio} if biografia else {})
+    return render(request, "AgregarBiografia.html", {'form': form,"imagen":mostrarImagen(request), "perfil":perfil} )
 
 
 
-#------------------------------------------ POSTEOS ------------------------------------------------------------
+
+#------------------------------------------ POSTEOS ---------------------------------------------------------------------------
 
 #-----------------  Agregar Posteo -------------------
 @login_required
@@ -177,17 +226,6 @@ def agregarPosteo(request):
         formulario = PosteoForm()
 
     return render(request, "Postear.html", {"form":formulario,"imagen":mostrarImagen(request)})
-
-
-#------------------- Ver Posteo -------------------
-
-@login_required
-def verPosteo(request):
-
-    posteos = Posteo.objects.all()
-
-    return render(request,"VerPosteos.html",{"posteos":posteos,"imagen":mostrarImagen(request)})
-
 
 #----------------- Editar Posteo -------------------
 @login_required
@@ -224,29 +262,6 @@ def editarPosteo(request,id):
             formularioposteo=PosteoForm(initial={"titulo_posteo":posteo.titulo_posteo,"subtitulo_posteo":posteo.subtitulo_posteo,"subtitulo2_posteo":posteo.subtitulo2_posteo,"contenido_posteo":posteo.contenido_posteo,"imagen_post":posteo.imagen_post})
 
             return render(request,"EditarPosteo.html", {"formularioposteo":formularioposteo,"posteo":posteo,"imagen":mostrarImagen(request)})
-        
-
-
-#---------------- Eliminar posteo ----------------
-@login_required
-def eliminarPosteo(request):
-
-    if request.method == 'POST':
-        id = request.POST['id']
-        posteo = get_object_or_404(Posteo, pk=id)
-        posteo.delete()
-        return redirect('verposteo')
-
-    return redirect('verposteo')
-
-
-
-#--------------------------- PERFIL -------------------------------
-
-#---------------------------- ABOUT US --------------------------------
-@login_required
-def sobreNosotros(request):
-     return render(request, "SobreNosotros.html",{"imagen":mostrarImagen(request)})
 
 
 #-------------------------- BUSCAR POSTEO ---------------------------------
@@ -265,7 +280,28 @@ def buscar(request):
         resultado = None
         return redirect("verposteo")
     return render(request,"ResultadoBusqueda.html", {"resultado":resultado,"imagen":mostrarImagen(request)})
+        
 
+#------------------- Ver Posteo -------------------
+
+@login_required
+def verPosteo(request):
+
+    posteos = Posteo.objects.all()
+
+    return render(request,"VerPosteos.html",{"posteos":posteos,"imagen":mostrarImagen(request)})
+
+#---------------- Eliminar posteo ----------------
+@login_required
+def eliminarPosteo(request):
+
+    if request.method == 'POST':
+        id = request.POST['id']
+        posteo = get_object_or_404(Posteo, pk=id)
+        posteo.delete()
+        return redirect('verposteo')
+
+    return redirect('verposteo')
 
 #-----------------------PAGINA POSTEO -----------------------------------------
 @login_required
@@ -274,34 +310,8 @@ def paginaPosteo(request,id):
     paginaposteo = Posteo.objects.get(id=id)
 
     return render(request, "PaginaPosteo.html",{"imagen":mostrarImagen(request), "paginaposteo":paginaposteo})
+
+
+
+
  
-@login_required
-def agregarBiografia(request):
-
-    perfil = request.user
-    
-    try:
-        biografia = Biografia.objects.get(usuarioBio=request.user)
-    except Biografia.DoesNotExist:
-        biografia = None
-
-    if request.method == 'POST':
-        
-        form = BiografiaForm(request.POST)
-        if form.is_valid():
-            
-            bio = form.cleaned_data['bio']
-            if biografia:
-                
-                biografia.bio = bio
-                biografia.save()
-            else:
-                
-                Biografia.objects.create(usuarioBio=request.user, bio=bio)
-
-            
-            return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "biografia":biografia, "perfil":perfil})
-    else:
-        
-        form = BiografiaForm(initial={'bio': biografia.bio} if biografia else {})
-    return render(request, "AgregarBiografia.html", {'form': form,"imagen":mostrarImagen(request), "perfil":perfil} )

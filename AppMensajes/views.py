@@ -19,7 +19,7 @@ def MandarMensajes(request):#por ahora solo puedo mandar mensajes desde un opcio
             mensaje = form.save(commit=False)#commit false? se supone que es un booleano que me deja ver el mensaje antes de guardar
             mensaje.salida = request.user
             mensaje.save()
-            return render(request, 'mandarMensajes.html', {'form': form,"imagen":mostrarImagen(request)})
+            return render(request, 'LeerMensaje.html', {'form': form,"imagen":mostrarImagen(request)})
     else:
         form = MensajeForm() 
     return render(request, 'mandarMensajes.html', {'form': form,"imagen":mostrarImagen(request)})

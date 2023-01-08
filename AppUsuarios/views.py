@@ -52,7 +52,9 @@ def registroUsuario(request):
         if form.is_valid():
             username=form.cleaned_data["username"]
             form.save()
-            return render(request, "Inicio.html")
+            user = authenticate(username=form.cleaned_data["username"],password=form.cleaned_data["password1"])
+            login(request, user)
+            return render(request, "Portal.html",{"imagen":mostrarImagen(request)})
     else:
         form = FormUsuario()
     return render(request, 'RegistroUsuario.html',{"form":form})
@@ -102,7 +104,6 @@ def editarUsuario(request):
             form = FormUsuario(initial = {"nombre":usuario.username,"email":usuario.email})
             return render(request, 'EditarUsuario.html',{"form":form,"imagen":mostrarImagen(request)})
     return render(request, "Perfil.html", {"imagen":mostrarImagen(request)})
-
 
 
 

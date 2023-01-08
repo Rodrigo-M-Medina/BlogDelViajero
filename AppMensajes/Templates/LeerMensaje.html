@@ -39,8 +39,8 @@
     
                 <th id="msjT">De</th>
                 <th id="msjT">Mensajes</th>
-                <th id="msjT">hora</th>
-                <th id="msjT">leido</th>
+                <th id="msjT">Hora</th>
+                <th id="msjT">Leido</th>
     
               </tr>
             </thead>
@@ -56,7 +56,7 @@
                 <td id="msj">
                   <form action="{% url 'borrarMensaje' %}" method="post">
                     {% csrf_token %}
-                    <input type="submit" value="borrar">
+                    <input class="btn btn-primary btn-s text-uppercase" type="submit" value="borrar">
                     <input type="hidden" name="id" value="{{ casilla.id }}">
                   </form>
                 </td>

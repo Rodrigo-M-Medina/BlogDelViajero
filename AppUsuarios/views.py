@@ -92,16 +92,23 @@ def ingresoUsuario(request):
 
 
 #-------------- Editar usuario ----------------
+
 def editarUsuario(request):
     if request.user.is_authenticated or request.user.is_superuser:
         usuario = request.user
-        form=FormUsuario(request.POST)
+        form=FormUsuario(request.POST, initial = {"username":usuario.username,"email":usuario.email})
         if form.is_valid():
-            form.save()
-            return render(request, "Perfil.html")
+            if 'username' in request.POST:
+                usuario.username = form.cleaned_data['username']
+            if 'email' in request.POST:
+                usuario.email = form.cleaned_data['email']
+            usuario.password1 = form.cleaned_data['password1']
+            usuario.password2 = form.cleaned_data['password2']
+            usuario.save()
+            return render(request, "Perfil.html",{"imagen":mostrarImagen(request),"perfil":usuario})
 
         else:
-            form = FormUsuario(initial = {"nombre":usuario.username,"email":usuario.email})
+            form = FormUsuario(initial = {"username":usuario.username,"email":usuario.email})
             return render(request, 'EditarUsuario.html',{"form":form,"imagen":mostrarImagen(request)})
     return render(request, "Perfil.html", {"imagen":mostrarImagen(request)})
 
@@ -233,8 +240,11 @@ def eliminarPosteo(request):
     if request.method == 'POST':
         id = request.POST['id']
         posteo = get_object_or_404(Posteo, pk=id)
-        posteo.delete()
-        return redirect('verposteo')
+        if request.user.is_superuser or request.user == posteo.usuario_posteo:
+            posteo.delete()
+            return redirect('verposteo')
+        else:   
+            return render(request, 'VerPosteos.html',{"mensaje":"No estás autorizado para esta funciòn"})
 
     return redirect('verposteo')
 

@@ -26,23 +26,14 @@ def custom_500(request):
 #--------------------------------------- PAGINAS DE INICIO ---------------------------------------------
 def paginaInicio(request):
     return render(request, "Inicio.html")
-
-
-
-#--------------------------------------- PORTAL/home ----------------------------------------------
+#------- PORTAL/home ------------
 @login_required
 def portal(request):
     return render(request, "Portal.html", {"imagen":mostrarImagen(request)})
-
-
-
-#--------------------------------------- ABOUT US --------------------------------------
+#---------------- ABOUT US --------
 @login_required
 def sobreNosotros(request):
      return render(request, "SobreNosotros.html",{"imagen":mostrarImagen(request)})
-
-
-
 #---------------------------------------------------- USUARIOS -----------------------------------------------
 
 #---------- Registro usuario ------------------
@@ -58,16 +49,6 @@ def registroUsuario(request):
     else:
         form = FormUsuario()
     return render(request, 'RegistroUsuario.html',{"form":form})
-
-#---------- Ver usuarios ------------------
-@login_required
-def verUsuarios(request):
-    if request.user.is_superuser:
-        usuarios = User.objects.all()
-        return render(request, 'VerUsuarios.html', {"usuarios": usuarios,"imagen":mostrarImagen(request)}) 
-    else:
-     return redirect("portal")
-    
 
 #----------- Inicio de sesion usuarios --------------
 def ingresoUsuario(request):
@@ -90,20 +71,21 @@ def ingresoUsuario(request):
     
     return render (request, "IngresoUsuario.html",{"form":form})
 
-
 #-------------- Editar usuario ----------------
 
 def editarUsuario(request):
     if request.user.is_authenticated or request.user.is_superuser:
         usuario = request.user
-        form=FormUsuario(request.POST, initial = {"username":usuario.username,"email":usuario.email})
+        form=FormUsuario(request.POST, instance=request.user)
         if form.is_valid():
             if 'username' in request.POST:
                 usuario.username = form.cleaned_data['username']
             if 'email' in request.POST:
                 usuario.email = form.cleaned_data['email']
-            usuario.password1 = form.cleaned_data['password1']
-            usuario.password2 = form.cleaned_data['password2']
+            password1 = form.cleaned_data['password1']
+            password2 = form.cleaned_data['password2']
+            if password1 and password2 and password1 == password2:
+                usuario.set_password(password1)
             usuario.save()
             return render(request, "Perfil.html",{"imagen":mostrarImagen(request),"perfil":usuario})
 
@@ -112,9 +94,17 @@ def editarUsuario(request):
             return render(request, 'EditarUsuario.html',{"form":form,"imagen":mostrarImagen(request)})
     return render(request, "Perfil.html", {"imagen":mostrarImagen(request)})
 
+#---------- Ver usuarios ------------------
+@login_required
+def verUsuarios(request):
+    if request.user.is_superuser:
+        usuarios = User.objects.all()
+        return render(request, 'VerUsuarios.html', {"usuarios": usuarios,"imagen":mostrarImagen(request)}) 
+    else:
+     return redirect("portal")
 
 
-#--------------------------- PERFIL/ Ver Usuario -------------------------------
+#----------------------- PERFIL -------------------------------
 @login_required
 def perfil(request):
 
@@ -274,9 +264,3 @@ def paginaPosteo(request,id):
 
     return render(request, "PaginaPosteo.html",{"imagen":mostrarImagen(request), "paginaposteo":paginaposteo})
  
-
-
-#---------------------------- ABOUT US --------------------------------
-@login_required
-def sobreNosotros(request):
-     return render(request, "SobreNosotros.html",{"imagen":mostrarImagen(request)})

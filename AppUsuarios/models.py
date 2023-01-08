@@ -3,8 +3,6 @@ from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 
 
-
-
 #------------ Modelo de Posteos ---------------
 
 
@@ -20,7 +18,7 @@ class Posteo(models.Model):
     def __str__(self):
         return self.titulo_posteo   
  
-
+#------------ Modelo de Imagen de perfil ----------
 class ImagenPerfil(models.Model):
     imagen=models.ImageField(upload_to='Perfil')
     user=models.ForeignKey(User, on_delete=models.CASCADE)

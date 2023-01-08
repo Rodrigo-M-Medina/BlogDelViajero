@@ -51,5 +51,3 @@ class PosteoForm(forms.Form):
         fields = ["titulo_posteo", "subtitulo_posteo","subtitulo2_posteo","contenido_posteo", "imagen_post"]
 
 
-class BiografiaForm(forms.Form):
-   bio = forms.CharField (label="Biografia" ,widget=forms.Textarea(attrs={'id': 'bio-id'}))#por lo que me dice google con esto le puedo dar un id al form y editarlo en css

@@ -7,9 +7,9 @@ from django.contrib.auth.models import User
 
 from datetime import datetime
 #--------------- imports de forms creados en forms.py -----------
-from AppUsuarios.forms import FormUsuario, PosteoForm, ImagenPerfilForm, BiografiaForm
+from AppUsuarios.forms import FormUsuario, PosteoForm, ImagenPerfilForm
 #--------------- imports models creados en models.py ----------
-from AppUsuarios.models import Posteo, ImagenPerfil, Biografia
+from AppUsuarios.models import Posteo, ImagenPerfil
 #--------------- imports de forms existentes en django ------------
 
 
@@ -111,9 +111,8 @@ def editarUsuario(request):
 def perfil(request):
 
     perfil = request.user
-    biografia = Biografia.objects.get(usuarioBio=request.user)
 
-    return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "perfil":perfil, "biografia":biografia})
+    return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "perfil":perfil})
 
 
 #-------  FUNCION PARA AGREGAR AVATAR ---------
@@ -226,7 +225,6 @@ def editarPosteo(request,id):
             return render(request,"EditarPosteo.html", {"formularioposteo":formularioposteo,"posteo":posteo,"imagen":mostrarImagen(request)})
         
 
-
 #---------------- Eliminar posteo ----------------
 @login_required
 def eliminarPosteo(request):
@@ -239,17 +237,7 @@ def eliminarPosteo(request):
 
     return redirect('verposteo')
 
-
-
-#--------------------------- PERFIL -------------------------------
-
-#---------------------------- ABOUT US --------------------------------
-@login_required
-def sobreNosotros(request):
-     return render(request, "SobreNosotros.html",{"imagen":mostrarImagen(request)})
-
-
-#-------------------------- BUSCAR POSTEO ---------------------------------
+#---------------- BUSCAR POSTEO ------------------------
 @login_required
 def buscar(request):
     buscar_por = request.GET.get("buscar_por")
@@ -267,7 +255,7 @@ def buscar(request):
     return render(request,"ResultadoBusqueda.html", {"resultado":resultado,"imagen":mostrarImagen(request)})
 
 
-#-----------------------PAGINA POSTEO -----------------------------------------
+#--------------------PAGINA POSTEO ------------------------------
 @login_required
 def paginaPosteo(request,id):
 
@@ -275,33 +263,9 @@ def paginaPosteo(request,id):
 
     return render(request, "PaginaPosteo.html",{"imagen":mostrarImagen(request), "paginaposteo":paginaposteo})
  
+
+
+#---------------------------- ABOUT US --------------------------------
 @login_required
-def agregarBiografia(request):
-
-    perfil = request.user
-    
-    try:
-        biografia = Biografia.objects.get(usuarioBio=request.user)
-    except Biografia.DoesNotExist:
-        biografia = None
-
-    if request.method == 'POST':
-        
-        form = BiografiaForm(request.POST)
-        if form.is_valid():
-            
-            bio = form.cleaned_data['bio']
-            if biografia:
-                
-                biografia.bio = bio
-                biografia.save()
-            else:
-                
-                Biografia.objects.create(usuarioBio=request.user, bio=bio)
-
-            
-            return render(request, "Perfil.html",{"imagen":mostrarImagen(request), "biografia":biografia, "perfil":perfil})
-    else:
-        
-        form = BiografiaForm(initial={'bio': biografia.bio} if biografia else {})
-    return render(request, "AgregarBiografia.html", {'form': form,"imagen":mostrarImagen(request), "perfil":perfil} )
+def sobreNosotros(request):
+     return render(request, "SobreNosotros.html",{"imagen":mostrarImagen(request)})

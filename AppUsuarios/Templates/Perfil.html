@@ -22,13 +22,14 @@
 
 
 {% block header %}
-<header style= "height: 5px" class="masthead">
+<header class="masthead">
+<h1 style="color:black" > Perfil de {{ user }} </h1>    
 {% endblock %}
 
 
 {% block titulo %}
 <br><br><br>
-<h1 style="color:black" class="text-uppercase"> Perfil de {{ user }} </h1>    
+
 {% endblock %}
 
 
@@ -37,9 +38,9 @@
 <center>
     
     <br><br><br><br><br>
-    <h3>Nombre de viajero: {{ perfil.username }}</h3>
+    <h3><i><small>Nombre del viajero:  </small></i> {{ perfil.username }}</h3>
     <br>
-    <h3>Email del viajero: {{ perfil.email }}</h3>
+    <h3><i><small>Email del viajero:  </small></i> {{ perfil.email }}</h3>
     <br>
     <img height="200px" src={{ imagen | safe }} alt="">
     <br> 

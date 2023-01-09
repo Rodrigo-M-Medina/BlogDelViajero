@@ -21,3 +21,7 @@ La mayoría del código fue escrito en reuniones de Discord, alternando quienes 
 Credenciales del super usuario
 usuario : admin
 clave : admin
+
+Link a video de presentación del proyecto:
+
+https://drive.google.com/file/d/1H4n63unYsgp8SAbtmk8fmaRDhw5mA9k8/view?usp=sharing

@@ -76,16 +76,15 @@ def ingresoUsuario(request):
 def editarUsuario(request):
     if request.user.is_authenticated or request.user.is_superuser:
         usuario = request.user
-        form=FormUsuario(request.POST, instance=request.user)
+        form=FormUsuario(request.POST, initial = {"username":usuario.username,"email":usuario.email})
         if form.is_valid():
             if 'username' in request.POST:
                 usuario.username = form.cleaned_data['username']
             if 'email' in request.POST:
                 usuario.email = form.cleaned_data['email']
-            password1 = form.cleaned_data['password1']
-            password2 = form.cleaned_data['password2']
-            if password1 and password2 and password1 == password2:
-                usuario.set_password(password1)
+            usuario.password1 = form.cleaned_data['password1']
+            usuario.password2 = form.cleaned_data['password2']
+
             usuario.save()
             return render(request, "Perfil.html",{"imagen":mostrarImagen(request),"perfil":usuario})
 
@@ -93,6 +92,7 @@ def editarUsuario(request):
             form = FormUsuario(initial = {"username":usuario.username,"email":usuario.email})
             return render(request, 'EditarUsuario.html',{"form":form,"imagen":mostrarImagen(request)})
     return render(request, "Perfil.html", {"imagen":mostrarImagen(request)})
+
 
 #---------- Ver usuarios ------------------
 @login_required

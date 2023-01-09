@@ -17,3 +17,7 @@ App mensajería: consta de un servicio de mensajería entre usuarios en el que l
 En about us se encuentra información de los 3 integrantes del grupo, así como un link de acceso al linkedin de cada uno.
 Utilizamos Git Merge para unificar el trabajo que se realizó por fuera de las reuniones donde escribimos código en equipo. 
 La mayoría del código fue escrito en reuniones de Discord, alternando quienes codeaban, mientras los otros 2 integrantes del grupo buscaban errores y trabajaban en alternativas a las opciones que no funcionaban, revisando nombres de variables y posibles inconsistencias que pudieran generar problemas en el funcionamiento del blog.
+
+Credenciales del super usuario
+usuario : admin
+clave : admin
